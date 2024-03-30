@@ -23,7 +23,7 @@ public class TrashcanRepository {
     }
 
     public List<Trashcan> findAll() {
-        return em.createQuery("SELECT  m from User m", Trashcan.class)
+        return em.createQuery("SELECT  t from Trashcan t", Trashcan.class)
                 .getResultList();
     }
 

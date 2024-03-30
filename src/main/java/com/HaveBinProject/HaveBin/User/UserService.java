@@ -16,13 +16,18 @@ public class UserService {
 
     @Transactional
     //회원가입
-    public Long join(User user){
+    public Long join(RegisterDto registerDto){
+        User user = new User();
 
+        user.setEmail(registerDto.getEmail());
+        user.setNickname(registerDto.getEmail());
+        user.setKakaoid(registerDto.getKakaoId());
+        user.setPassword(registerDto.getPassword());
+        user.setProfile_imgpath(registerDto.getProfile_imgpath());
         //중복 회원 검출
         validateDuplicateUser(user);
 
-        userRepository.save(user);
-        return user.getId();
+        return userRepository.save(user);
     }
 
     @Transactional
