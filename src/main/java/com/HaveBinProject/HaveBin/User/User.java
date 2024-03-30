@@ -3,6 +3,7 @@ package com.HaveBinProject.HaveBin.User;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,12 +19,13 @@ public class User {
     @GeneratedValue
     Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     String email;
 
     @Column(nullable = false)
     String nickname;
 
+    @JsonIgnore
     @Column(nullable = false)
     String password;
 
