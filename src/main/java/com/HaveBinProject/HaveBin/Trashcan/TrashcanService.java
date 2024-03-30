@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +27,9 @@ public class TrashcanService {
     //특정 쓰레기통 조회
     public Trashcan findOnd(Long id){
         return trashcanRepository.find(id);
+    }
+
+    public List<Trashcan> findNearTrashcans(ResponseDTO responseDTO){
+        return trashcanRepository.findNear(responseDTO);
     }
 }

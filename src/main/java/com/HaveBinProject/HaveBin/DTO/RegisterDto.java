@@ -1,4 +1,4 @@
-package com.HaveBinProject.HaveBin.User;
+package com.HaveBinProject.HaveBin.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
