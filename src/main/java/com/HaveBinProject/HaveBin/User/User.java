@@ -1,8 +1,5 @@
 package com.HaveBinProject.HaveBin.User;
 
-
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
