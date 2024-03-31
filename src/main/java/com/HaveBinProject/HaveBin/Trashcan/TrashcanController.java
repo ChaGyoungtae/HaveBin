@@ -2,9 +2,7 @@ package com.HaveBinProject.HaveBin.Trashcan;
 
 import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +18,8 @@ public class TrashcanController {
     }
 
     @PostMapping("/getGPS")
-    public List<Trashcan> sendTrashcan(ResponseDTO responseDTO){
+    public List<Trashcan> sendTrashcan(@RequestBody ResponseDTO responseDTO){
+        System.out.println(responseDTO.toString());
         return trashcanService.findNearTrashcans(responseDTO);
     }
 }

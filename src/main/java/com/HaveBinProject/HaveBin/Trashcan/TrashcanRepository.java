@@ -31,10 +31,10 @@ public class TrashcanRepository {
     //근처 쓰레기통 찾기
     public List<Trashcan> findNear(ResponseDTO responseDTO){
         TypedQuery<Trashcan> resultQuery = em.createQuery("SELECT t from Trashcan t where t.latitude >= :minLat and t.latitude <= :maxLat and t.longitude >= :minLon and t.longitude <= : maxLon", Trashcan.class);
-        resultQuery.setParameter("maxLat", responseDTO.getMaxLat());
-        resultQuery.setParameter("maxLon", responseDTO.getMaxLon());
-        resultQuery.setParameter("minLat", responseDTO.getMinLat());
-        resultQuery.setParameter("minLon", responseDTO.getMinLon());
+        resultQuery.setParameter("maxLat", responseDTO.getNeLat());
+        resultQuery.setParameter("maxLon", responseDTO.getNeLon());
+        resultQuery.setParameter("minLat", responseDTO.getSwLat());
+        resultQuery.setParameter("minLon", responseDTO.getSwLon());
         return resultQuery.getResultList();
     }
 }
