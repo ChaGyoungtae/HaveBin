@@ -26,9 +26,9 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     Long kakaoid;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     String profile_imgpath;
 }

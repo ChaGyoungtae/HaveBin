@@ -1,16 +1,13 @@
 package com.HaveBinProject.HaveBin.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.annotation.Nullable;
+import lombok.*;
 
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterDto {
     private String email;
     private String password;
     private String nickname;
-    private Long kakaoId;
-    private String profile_imgpath;
 }
