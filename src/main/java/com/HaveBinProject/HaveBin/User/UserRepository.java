@@ -44,6 +44,12 @@ public class UserRepository {
         return resultQuery.getResultList();
     }
 
+    public Long findIdByNickname(String nickname){
+        TypedQuery<User> resultQuery = em.createQuery("SELECT m from User m where m.nickname = :nickname", User.class);
+        resultQuery.setParameter("nickname", nickname);
+        return resultQuery.getResultList().get(0).getId();
+    }
+
     public void delete(Long id){
         User user = em.find(User.class, id);
         em.remove(user);
