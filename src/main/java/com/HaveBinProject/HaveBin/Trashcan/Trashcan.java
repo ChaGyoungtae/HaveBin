@@ -27,10 +27,20 @@ public class Trashcan {
     private Long userId;
 
     @Column
-    private Category categories;
+    private String categories;
 
     @Column(nullable = false)
-    private State state;
+    private String state;
 
+    // 발견 날짜 (YOLO는 0301)
+    @Column(nullable = false)
+    private String date;
 
+    // 주소 (주소는 없어도 가능)
+    @Column
+    private String address;
+
+    // 세부주소 (예, 버스정거장, 택시승강장, 공원 등)
+    @Column
+    private String detailAddress;
 }
