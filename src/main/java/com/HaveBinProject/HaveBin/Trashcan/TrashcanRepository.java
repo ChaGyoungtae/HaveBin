@@ -14,9 +14,14 @@ public class TrashcanRepository {
     @PersistenceContext
     private EntityManager em;
 
+    public Long saveOne_unknown(Unknown_Trashcan unknown_trashcan){
+        em.persist(unknown_trashcan);
+        return(unknown_trashcan.getTrashcan_id());
+    }
+
     public Long saveOne(Trashcan trashcan){
         em.persist(trashcan);
-        return(trashcan.getId());
+        return trashcan.getId();
     }
 
     public Trashcan find(Long trashcanId){

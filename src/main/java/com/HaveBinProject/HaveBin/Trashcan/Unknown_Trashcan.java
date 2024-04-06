@@ -28,6 +28,9 @@ public class Unknown_Trashcan {
     private Long userId;
 
     @Column(nullable = false)
-    private Category categories;
+    private String categories;
+
+    @Column(nullable = false)
+    private String state;
 
 }
