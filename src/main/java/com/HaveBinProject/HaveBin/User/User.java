@@ -27,4 +27,7 @@ public class User {
 
     @Column(nullable = true)
     String profile_imgpath;
+
+    @Column(nullable = false)
+    String roleType;
 }
