@@ -12,11 +12,4 @@ public class AdminService {
 
     private final TrashcanRepository trashcanRepository;
 
-    public void saveAll(){
-
-    }
-
-
-
-
 }

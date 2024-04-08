@@ -11,7 +11,5 @@ public class AdminRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public void saveAll(Trashcan trashcan){
-        em.persist(trashcan);
-    }
+
 }

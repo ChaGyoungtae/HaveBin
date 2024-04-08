@@ -29,6 +29,7 @@ public class UserService {
         user.setEmail(registerDto.getEmail());
         user.setNickname(registerDto.getNickname());
         user.setPassword(bCryptPasswordEncoder.encode(registerDto.getPassword()));
+        user.setRoleType("user");
 
         try {
             userRepository.save(user);
