@@ -20,5 +20,18 @@ logging:
   level:
     org.hibernate.sql : debug
 
+cloud:
+  aws:
+    s3:
+      bucket: "havebin"
+    credentials:
+      access-key: "AKIAW3MEDHH4OHC63SFH"
+      secret-key: "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"
+    region:
+      static: "ap-northeast-2"
+      auto: false
+    stack:
+      auto: false
+
 
 
