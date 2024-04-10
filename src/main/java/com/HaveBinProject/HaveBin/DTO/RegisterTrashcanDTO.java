@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.DTO;
 
+import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class RegisterTrashcanDTO {
     private Long userId;
     private String categories;
     private String state;
+    private String report_date;
 }

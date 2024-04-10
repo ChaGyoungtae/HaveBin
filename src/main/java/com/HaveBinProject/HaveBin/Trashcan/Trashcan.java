@@ -26,7 +26,7 @@ public class Trashcan {
     @Column(nullable = false)
     private Long userId;
 
-    @Column
+    @Column(nullable = false)
     private String categories;
 
     @Column(nullable = false)

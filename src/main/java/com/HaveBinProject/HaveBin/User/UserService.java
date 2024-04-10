@@ -1,6 +1,7 @@
 package com.HaveBinProject.HaveBin.User;
 
 import com.HaveBinProject.HaveBin.DTO.RegisterDto;
+import com.HaveBinProject.HaveBin.DTO.UserDataDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -88,9 +89,19 @@ public class UserService {
     }
 
     //단건 조회
-    public User findOne(Long id){
-        return userRepository.find(id);
+    public ResponseEntity<?> findOne(String email) {
+        UserDataDTO user = null;
+        try {
+            user = userRepository.findUserbyEmail(email);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("No user data");
+        }
+
+        return ResponseEntity.ok(user);
     }
+
+    // e메일로 id값 조회
+    public Long findId(String email) { return userRepository.findIdByEmail(email); }
 
     //유저 삭제
     @Transactional

@@ -16,7 +16,7 @@ public class TrashcanRepository {
 
     public Long saveOne_unknown(Unknown_Trashcan unknown_trashcan){
         em.persist(unknown_trashcan);
-        return(unknown_trashcan.getTrashcan_id());
+        return(unknown_trashcan.getUnknown_trashcan_id());
     }
 
     public Long saveOne(Trashcan trashcan){
@@ -42,4 +42,5 @@ public class TrashcanRepository {
         resultQuery.setParameter("minLon", responseDTO.getSwLon());
         return resultQuery.getResultList();
     }
+
 }

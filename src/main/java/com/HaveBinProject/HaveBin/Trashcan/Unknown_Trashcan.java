@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Unknown_Trashcan {
 
     @Id @GeneratedValue
-    private Long trashcan_id;
+    private Long unknown_trashcan_id;
 
     @Column(nullable = false)
     private double latitude;
@@ -28,9 +28,11 @@ public class Unknown_Trashcan {
     private Long userId;
 
     @Column(nullable = false)
+    private String date;
+
+    @Column(nullable = false)
     private String categories;
 
     @Column(nullable = false)
     private String state;
-
 }

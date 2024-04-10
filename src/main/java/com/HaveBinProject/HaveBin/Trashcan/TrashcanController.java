@@ -31,10 +31,6 @@ public class TrashcanController {
         return trashcanService.register_unknown(registerTrashcanDTO);
     }
 
-    //unknown_trashcan에 있는 데이터 중 관리자가 승인한 데이터를 unknown_trashcan 테이블에서 삭제 후 trashcan 데이터에 저장
-//    @PostMapping("/registerTrashcan")
-//    public ResponseEntity<?> addTrashcan(@RequestBody Unknown_Trashcan unknown_trashcan){
-//         return trashcanService.register(unknown_trashcan);
-//    }
+
 
 }
