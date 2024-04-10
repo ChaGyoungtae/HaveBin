@@ -1,10 +1,12 @@
 package com.HaveBinProject.HaveBin.User;
 
+import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.DTO.RegisterDto;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
@@ -37,4 +39,7 @@ public class UserController {
     public void deleteUser(@RequestParam("id") Long id){
         userService.deleteUser(id);
     }
+
+    @PostMapping("/getUserdata")
+    public ResponseEntity<?> getUserdata(@AuthenticationPrincipal CustomUserDetails userDetails) {return  userService.findOne(userDetails.getUsername()); }
 }

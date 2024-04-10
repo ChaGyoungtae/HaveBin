@@ -19,7 +19,7 @@ public class CustomUserDetails implements UserDetails {
 
         collection.add(new GrantedAuthority() {
             @Override
-            public String getAuthority() { return "user"; } // 권한 넘겨주라는 뜻
+            public String getAuthority() { return user.getRoleType(); } // 권한 넘겨주라는 뜻
         });
 
         return collection;

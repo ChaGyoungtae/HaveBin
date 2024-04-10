@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Security;
 
+import com.HaveBinProject.HaveBin.jwt.JWTFilter;
 import com.HaveBinProject.HaveBin.jwt.JWTUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,10 +54,15 @@ public class SecurityConfig {
                 // 인증,인가가 필요한 URL 지정
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("*").permitAll()
+                        //.requestMatchers("/admin").hasRole("ADMIN")
+                        //.requestMatchers("/adminPage").hasRole("ADMIN")
                         .anyRequest().authenticated())
 
                 .logout((logout) -> logout
                         .invalidateHttpSession(true))
+
+                //JWTFilter 등록
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
 
                 // 필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager()
                 // 메소드에 authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요

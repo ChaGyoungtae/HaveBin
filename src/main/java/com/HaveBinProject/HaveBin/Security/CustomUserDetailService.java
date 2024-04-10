@@ -23,9 +23,8 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException {
         List<User> users = userRepository.findByEmail(username);
 
-        if (!users.isEmpty()) {
-            return new CustomUserDetails(users.get(0));
-        }
+        System.out.println(users.get(0).getId());
+        if (!users.isEmpty()) { return new CustomUserDetails(users.get(0)); }
 
         return null;
     }

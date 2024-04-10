@@ -32,9 +32,10 @@ public class TrashcanService {
             unknown_trashcan.setCategories(registerTrashcanDTO.getCategories());
             unknown_trashcan.setUserId(registerTrashcanDTO.getUserId());
             unknown_trashcan.setState(registerTrashcanDTO.getState());
+            unknown_trashcan.setDate(registerTrashcanDTO.getReport_date());
             Long trashcanId = trashcanRepository.saveOne_unknown(unknown_trashcan);
 
-            if(unknown_trashcan.getTrashcan_id() != trashcanId){
+            if(unknown_trashcan.getUnknown_trashcan_id() != trashcanId){
                 throw new IllegalStateException("register_unknown_exception");
             }
         } catch (IllegalStateException e){
@@ -46,10 +47,6 @@ public class TrashcanService {
 
 
     }
-
-//    @Transactional
-//    public ResponseEntity<?> register(Unknown_Trashcan unknown_trashcan){
-//    }
 
     //전체 쓰레기통 조회
     public List<Trashcan> findTrashcans(){
