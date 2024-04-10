@@ -34,4 +34,10 @@ public class AdminController {
     public  ResponseEntity<?> deleteUnknownTrashcan(@RequestBody String unknown_trashcan_id) {
         return adminService.deleteUnknownTrashcan(Long.parseLong(unknown_trashcan_id));
     }
+
+    //기존에 있는 쓰레기통 삭제
+    @PostMapping("/deleteTrashcan")
+    public ResponseEntity<?> deleteTrashcan(@RequestBody String trashcan_id) {
+        return adminService.deleteTrashcan(Long.parseLong(trashcan_id));
+    }
 }
