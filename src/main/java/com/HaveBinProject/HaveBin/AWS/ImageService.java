@@ -39,15 +39,7 @@ public class ImageService {
         String originName = image.getOriginalFilename(); //원본 이미지 이름
         String ext = originName.substring(originName.lastIndexOf(".")); //확장자
 
-        String changedName = ""; // 새로 생성된 이미지 이름
-
-        // ============= 이미지 경로 지정 =============
-        if (type.equals("Trashcan")) { changedName = "Trashcan/" + changedImageName(originName); }
-
-        else if (type.equals("UnknownTrashcan")) { changedName = "Unknown_Trashcan/" + changedImageName(originName); }
-
-        else { changedName = "User/" + changedImageName(originName); }
-        // ============= ============ =============
+        String changedName = type+ "/" + changedImageName(originName); // 새로 생성된 이미지 이름
 
         try {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
