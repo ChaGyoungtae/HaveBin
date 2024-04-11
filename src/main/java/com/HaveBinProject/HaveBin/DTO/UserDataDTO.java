@@ -9,6 +9,7 @@ public class UserDataDTO {
     private String email;
     private String nickname;
     private String profileImgPath;
+    private String roleType;
 
     // 생성자, 게터, 세터 등 필요한 메서드들을 추가할 수 있습니다.
 
@@ -17,5 +18,6 @@ public class UserDataDTO {
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.profileImgPath = user.getProfile_imgpath();
+        this.roleType = user.getRoleType();
     }
 }

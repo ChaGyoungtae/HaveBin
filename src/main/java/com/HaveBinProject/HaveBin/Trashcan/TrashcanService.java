@@ -30,20 +30,15 @@ public class TrashcanService {
 
     @Transactional
     //새로운 쓰레기통 등록 아직 미구현
-    public ResponseEntity<?> register_unknown(RegisterTrashcanDTO registerTrashcanDTO){
+    public ResponseEntity<?> register_unknown(RegisterTrashcanDTO registerTrashcanDTO, String email){
 
         try{
-            Unknown_Trashcan unknown_trashcan = new Unknown_Trashcan();
-            unknown_trashcan.setLatitude(registerTrashcanDTO.getLatitude());
-            unknown_trashcan.setLongitude(registerTrashcanDTO.getLongitude());
-            unknown_trashcan.setRoadviewImgpath(registerTrashcanDTO.getRoadviewImgpath());
-            unknown_trashcan.setCategories(registerTrashcanDTO.getCategories());
-            unknown_trashcan.setUserId(registerTrashcanDTO.getUserId());
-            unknown_trashcan.setState(registerTrashcanDTO.getState());
-            unknown_trashcan.setDate(registerTrashcanDTO.getReport_date());
+            Long userId = userRepository.findIdByEmail(email);
+            Unknown_Trashcan unknown_trashcan = registerTrashcanDTO.toEntity(registerTrashcanDTO, userId);
+
             Long trashcanId = trashcanRepository.saveOne_unknown(unknown_trashcan);
 
-            if(unknown_trashcan.getUnknown_trashcan_id() != trashcanId){
+            if(!unknown_trashcan.getUnknown_trashcan_id().equals(trashcanId)){
                 throw new IllegalStateException("register_unknown_exception");
             }
         } catch (IllegalStateException e){
