@@ -29,8 +29,9 @@ public class TrashcanController {
 
     //유저가 새로 신고한 쓰레기통 데이터를 일단 unknown_trashcan 테이블에 저장
     @PostMapping("/newTrashcan")
-    public ResponseEntity<?> newTrashcan(@RequestBody RegisterTrashcanDTO registerTrashcanDTO){
-        return trashcanService.register_unknown(registerTrashcanDTO);
+    public ResponseEntity<?> newTrashcan(@RequestBody RegisterTrashcanDTO registerTrashcanDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        String email = userDetails.getUsername();
+        return trashcanService.register_unknown(registerTrashcanDTO, email);
     }
 
     //유저가 기존에 있던 쓰레기통을 신고 / reportTrashcan에 저장
