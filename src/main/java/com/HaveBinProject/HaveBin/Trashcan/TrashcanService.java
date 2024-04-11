@@ -1,9 +1,14 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
+import com.HaveBinProject.HaveBin.User.User;
+import com.HaveBinProject.HaveBin.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
@@ -17,8 +22,11 @@ import java.util.List;
 public class TrashcanService {
 
     private final TrashcanRepository trashcanRepository;
+    private final UserRepository userRepository;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
 
     @Transactional
     //새로운 쓰레기통 등록 아직 미구현
@@ -59,5 +67,35 @@ public class TrashcanService {
 
     public List<Trashcan> findNearTrashcans(ResponseDTO responseDTO){
         return trashcanRepository.findNear(responseDTO);
+    }
+
+    //쓰레기통 신고
+    @Transactional
+    public ResponseEntity<?> reportTrashcan(ReportTrashcanDTO reportTrashcanDTO, String email){
+
+        try{
+            User user = userRepository.findByEmail(email).get(0);
+            Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
+            Report_Trashcan reportTrashcan = new Report_Trashcan();
+            Trashcan trashcan = trashcanRepository.find(trashcanId);
+            reportTrashcan.setTrashcan(trashcan);
+            reportTrashcan.setUser(user);
+            reportTrashcan.setReport_category(reportTrashcanDTO.getReport_category());
+            reportTrashcan.setModifyStatus(false);
+            Long reportTrashcanId = trashcanRepository.saveReportTrashcan(reportTrashcan);
+
+            if(trashcanRepository.findReportTrashcan(reportTrashcanId) != reportTrashcan){
+                throw new IllegalStateException("신고 실패");
+            }
+        } catch (IllegalStateException e) {
+            logger.error("Report failed");
+            return ResponseEntity.badRequest().body("Report failed");
+        }
+        return ResponseEntity.ok("Report success!");
+
+    }
+
+    public int findReportCount(Long reportTrashcanId){
+        return trashcanRepository.findReportCount(reportTrashcanId);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class Report_Trashcan {
 
-    @Id @Column(nullable = false)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,5 +29,7 @@ public class Report_Trashcan {
     @Column(nullable = false)
     private String report_category;
 
-
+    //false 면 처리중(빨간색글씨) / ture 면 처리완료(초록색글씨)
+    @Column(nullable = false)
+    private Boolean ModifyStatus;
 }

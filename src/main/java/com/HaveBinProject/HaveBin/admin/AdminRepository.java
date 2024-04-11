@@ -1,9 +1,12 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
+import com.HaveBinProject.HaveBin.User.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,4 +40,10 @@ public class AdminRepository {
         Trashcan trashcan = em.find(Trashcan.class,trashcanId);
         em.remove(trashcan);
     }
+
+    public List<Report_Trashcan> findAllReportTrashcan(){
+        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("SELECT  rt from Report_Trashcan rt", Report_Trashcan.class);
+        return resultQuery.getResultList();
+    }
+
 }

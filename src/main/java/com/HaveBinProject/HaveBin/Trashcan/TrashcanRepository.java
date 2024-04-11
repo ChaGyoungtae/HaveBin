@@ -43,4 +43,27 @@ public class TrashcanRepository {
         return resultQuery.getResultList();
     }
 
+    //쓰레기통 신고
+    public Long saveReportTrashcan(Report_Trashcan reportTrashcan){
+        em.persist(reportTrashcan);
+        return reportTrashcan.getId();
+    }
+
+    //1개의 신고당한 쓰레기통 조회
+    public Report_Trashcan findReportTrashcan(Long reportTrashcanId){
+        return em.find(Report_Trashcan.class, reportTrashcanId);
+    }
+
+    //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
+    public int findReportCount(Long reportTrashcanId){
+        String jpql = "SELECT COUNT(u) FROM User u JOIN Report_Trashcan s ON u.id = s.id WHERE s.id = :reportedTrashcanId";
+
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+        query.setParameter("reportedTrashcanId", reportTrashcanId);
+
+        Long count = query.getSingleResult();
+
+        return count != null ? count.intValue() : 0;
+    }
+
 }

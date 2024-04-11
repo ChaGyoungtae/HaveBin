@@ -1,6 +1,7 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
@@ -61,4 +62,7 @@ public class AdminService {
         return ResponseEntity.ok("삭제완료");
     }
 
+    public List<Report_Trashcan> findAllReportTrashcan(){
+        return adminRepository.findAllReportTrashcan();
+    }
 }
