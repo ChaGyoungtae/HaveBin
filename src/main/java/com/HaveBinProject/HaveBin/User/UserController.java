@@ -42,4 +42,6 @@ public class UserController {
 
     @PostMapping("/getUserdata")
     public ResponseEntity<?> getUserdata(@AuthenticationPrincipal CustomUserDetails userDetails) {return  userService.findOne(userDetails.getUsername()); }
+
+
 }
