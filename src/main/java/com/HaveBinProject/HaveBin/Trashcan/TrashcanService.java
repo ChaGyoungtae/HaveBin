@@ -95,7 +95,7 @@ public class TrashcanService {
 
     }
 
-    public int findReportCount(Long reportTrashcanId){
-        return trashcanRepository.findReportCount(reportTrashcanId);
+    public int findReportCount(Long TrashcanId){
+        return trashcanRepository.findReportCount(TrashcanId);
     }
 }

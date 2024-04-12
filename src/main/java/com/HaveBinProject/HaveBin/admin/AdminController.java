@@ -1,9 +1,12 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.Tuple;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.mapping.Any;
@@ -46,7 +49,7 @@ public class AdminController {
 
     //신고한 쓰레기통 목록 조회
     @GetMapping("/findAllReportTrashcan")
-    public List<Report_Trashcan> findAllReportTrashcan(){
+    public List<SendReportTrashcanDTO> findAllReportTrashcan(){
         return adminService.findAllReportTrashcan();
     }
 }

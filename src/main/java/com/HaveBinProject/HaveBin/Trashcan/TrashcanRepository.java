@@ -55,11 +55,11 @@ public class TrashcanRepository {
     }
 
     //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
-    public int findReportCount(Long reportTrashcanId){
-        String jpql = "SELECT COUNT(u) FROM User u JOIN Report_Trashcan s ON u.id = s.id WHERE s.id = :reportedTrashcanId";
+    public int findReportCount(Long trashcanId){
+        String jpql = "SELECT COUNT(rt) FROM Report_Trashcan rt WHERE rt.trashcan.id = :trashcanId";
 
         TypedQuery<Long> query = em.createQuery(jpql, Long.class);
-        query.setParameter("reportedTrashcanId", reportTrashcanId);
+        query.setParameter("trashcanId", trashcanId);
 
         Long count = query.getSingleResult();
 
