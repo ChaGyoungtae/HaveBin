@@ -1,10 +1,13 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
+import jakarta.persistence.Tuple;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +65,7 @@ public class AdminService {
         return ResponseEntity.ok("삭제완료");
     }
 
-    public List<Report_Trashcan> findAllReportTrashcan(){
+    public List<SendReportTrashcanDTO> findAllReportTrashcan(){
         return adminRepository.findAllReportTrashcan();
     }
 }

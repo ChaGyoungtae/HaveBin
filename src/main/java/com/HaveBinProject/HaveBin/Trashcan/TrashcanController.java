@@ -44,7 +44,7 @@ public class TrashcanController {
     //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
     @GetMapping("/findReportCount")
     public int findReportCount(@RequestBody ReportCountDTO reportCountDTO){
-        Long reportTrashcanId = Long.parseLong(reportCountDTO.getReportTrashcanId());
-        return trashcanService.findReportCount(reportTrashcanId);
+        Long TrashcanId = Long.parseLong(reportCountDTO.getTrashcanId());
+        return trashcanService.findReportCount(TrashcanId);
     }
 }
