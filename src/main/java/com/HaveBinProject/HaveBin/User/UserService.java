@@ -43,7 +43,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> validateDuplicateUser(String email) {
+    public boolean validateDuplicateUser(String email) {
         System.out.println("email = " + email);
         email = email.substring(1);
         email = email.substring(0, email.length() - 1);
@@ -56,10 +56,12 @@ public class UserService {
             }
         } catch (IllegalStateException e){
             logger.error("Email Duplicate");
-            return ResponseEntity.badRequest().body("Email Duplicate"); // 상태코드 == 400
+//            return ResponseEntity.badRequest().body("Email Duplicate"); // 상태코드 == 400
+            return false;
         }
         logger.info("Email Not Duplicate");
-        return ResponseEntity.ok("Email Not Duplicate"); // 상태코드 == 200
+//        return ResponseEntity.ok("Email Not Duplicate"); // 상태코드 == 200
+        return true;
 
     }
 

@@ -27,9 +27,9 @@ public class UserController {
     @PostMapping(value = "/responseUserInfo")
     public ResponseEntity<?> responseUserInfo(@RequestBody RegisterDto registerDto){ return userService.join(registerDto); }
 
-    //이메일 중복 검사
-    @PostMapping("/validateDuplicateUser")
-    public ResponseEntity<?> validateDuplicateUser(@RequestBody String email) { return userService.validateDuplicateUser(email); }
+//    //이메일 중복 검사 -> EmailController로 이동
+//    @PostMapping("/validateDuplicateUser")
+//    public ResponseEntity<?> validateDuplicateUser(@RequestBody String email) { return userService.validateDuplicateUser(email); }
 
     //닉네임 중복 검사
     @PostMapping("/validateDuplicateNickname")
