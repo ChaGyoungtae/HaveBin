@@ -5,6 +5,11 @@ spring:
     username: ks0689
     password: aksl4224
 
+  data:
+    redis:
+      host: ohs0407.iptime.org
+      port: 6379
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,6 +17,23 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ks06891@naver.com
+    password: ks06892001!!
+    properties:
+      debug: false
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+          trust: smtp.naver.com
+
 
   jwt:
     secret: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
