@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.User;
 
+import com.HaveBinProject.HaveBin.DTO.NicknameDTO;
 import com.HaveBinProject.HaveBin.DTO.RegisterDto;
 import com.HaveBinProject.HaveBin.DTO.UserDataDTO;
 import lombok.RequiredArgsConstructor;
@@ -66,14 +67,15 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> validateDuplicateNickname(String nickname){
-        System.out.println("nickname = " + nickname);
-        nickname = nickname.substring(1);
-        nickname = nickname.substring(0, nickname.length() - 1);
+    public ResponseEntity<?> validateDuplicateNickname(NicknameDTO nicknameDTO){
+        String nickname = nicknameDTO.getNickname();
+        System.out.println("nickname = " + nicknameDTO.getNickname());
+
 
         //이메일 중복 검출 시 예외 발생
         try{
             List<User> findNicknames = userRepository.findByNickname(nickname);
+
             if(!findNicknames.isEmpty()){
                 throw new IllegalStateException("이미 존재하는 닉네임입니다.");
             }
