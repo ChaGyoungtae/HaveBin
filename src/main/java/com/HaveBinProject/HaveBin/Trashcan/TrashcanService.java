@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
 import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,18 +25,20 @@ public class TrashcanService {
 
     private final TrashcanRepository trashcanRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-
     @Transactional
     //새로운 쓰레기통 등록 아직 미구현
-    public ResponseEntity<?> register_unknown(RegisterTrashcanDTO registerTrashcanDTO, String email){
+    public ResponseEntity<?> register_unknown(RegisterTrashcanDTO registerTrashcanDTO, MultipartFile file, String email){
 
         try{
             Long userId = userRepository.findIdByEmail(email);
             Unknown_Trashcan unknown_trashcan = registerTrashcanDTO.toEntity(registerTrashcanDTO, userId);
+
+            unknown_trashcan.setRoadviewImgpath(imageService.uploadImageToS3(file,"Unknown_Trashcan"));
 
             Long trashcanId = trashcanRepository.saveOne_unknown(unknown_trashcan);
 
