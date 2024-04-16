@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.User;
 
+import com.HaveBinProject.HaveBin.DTO.NicknameDTO;
 import com.HaveBinProject.HaveBin.DTO.RegisterDto;
 import com.HaveBinProject.HaveBin.DTO.UserDataDTO;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> validateDuplicateUser(String email) {
+    public boolean validateDuplicateUser(String email) {
         System.out.println("email = " + email);
         email = email.substring(1);
         email = email.substring(0, email.length() - 1);
@@ -56,22 +57,25 @@ public class UserService {
             }
         } catch (IllegalStateException e){
             logger.error("Email Duplicate");
-            return ResponseEntity.badRequest().body("Email Duplicate"); // 상태코드 == 400
+//            return ResponseEntity.badRequest().body("Email Duplicate"); // 상태코드 == 400
+            return false;
         }
         logger.info("Email Not Duplicate");
-        return ResponseEntity.ok("Email Not Duplicate"); // 상태코드 == 200
+//        return ResponseEntity.ok("Email Not Duplicate"); // 상태코드 == 200
+        return true;
 
     }
 
     @Transactional
-    public ResponseEntity<?> validateDuplicateNickname(String nickname){
-        System.out.println("nickname = " + nickname);
-        nickname = nickname.substring(1);
-        nickname = nickname.substring(0, nickname.length() - 1);
+    public ResponseEntity<?> validateDuplicateNickname(NicknameDTO nicknameDTO){
+        String nickname = nicknameDTO.getNickname();
+        System.out.println("nickname = " + nicknameDTO.getNickname());
+
 
         //이메일 중복 검출 시 예외 발생
         try{
             List<User> findNicknames = userRepository.findByNickname(nickname);
+
             if(!findNicknames.isEmpty()){
                 throw new IllegalStateException("이미 존재하는 닉네임입니다.");
             }

@@ -1,4 +1,4 @@
-package com.HaveBinProject.HaveBin.jwt;
+package com.HaveBinProject.HaveBin.Jwt;
 
 
 import io.jsonwebtoken.Jwts;

@@ -1,6 +1,7 @@
 package com.HaveBinProject.HaveBin.User;
 
 import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.DTO.NicknameDTO;
 import com.HaveBinProject.HaveBin.DTO.RegisterDto;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +28,21 @@ public class UserController {
     @PostMapping(value = "/responseUserInfo")
     public ResponseEntity<?> responseUserInfo(@RequestBody RegisterDto registerDto){ return userService.join(registerDto); }
 
-    //이메일 중복 검사
-    @PostMapping("/validateDuplicateUser")
-    public ResponseEntity<?> validateDuplicateUser(@RequestBody String email) { return userService.validateDuplicateUser(email); }
+//    //이메일 중복 검사 -> EmailController로 이동
+//    @PostMapping("/validateDuplicateUser")
+//    public ResponseEntity<?> validateDuplicateUser(@RequestBody String email) { return userService.validateDuplicateUser(email); }
 
     //닉네임 중복 검사
     @PostMapping("/validateDuplicateNickname")
-    public ResponseEntity<?> validateDuplicateNickname(@RequestBody String nickname){ return userService.validateDuplicateNickname(nickname); }
+    public ResponseEntity<?> validateDuplicateNickname(@RequestBody NicknameDTO nicknameDTO){
+        return userService.validateDuplicateNickname(nicknameDTO);
+    }
 
     @GetMapping("/deleteUser")
     public void deleteUser(@RequestParam("id") Long id){
         userService.deleteUser(id);
     }
+
 
     @PostMapping("/getUserdata")
     public ResponseEntity<?> getUserdata(@AuthenticationPrincipal CustomUserDetails userDetails) {return  userService.findOne(userDetails.getUsername()); }

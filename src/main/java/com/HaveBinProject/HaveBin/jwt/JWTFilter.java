@@ -1,4 +1,4 @@
-package com.HaveBinProject.HaveBin.jwt;
+package com.HaveBinProject.HaveBin.Jwt;
 
 import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.User.User;
