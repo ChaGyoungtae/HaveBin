@@ -1,6 +1,9 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
-import com.HaveBinProject.HaveBin.DTO.*;
+import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
 import com.HaveBinProject.HaveBin.User.User;
 import com.HaveBinProject.HaveBin.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -66,20 +69,19 @@ public class TrashcanService {
     public ResponseEntity<?> reportTrashcan(ReportTrashcanDTO reportTrashcanDTO, String email){
 
         try{
-            String reportCategory = reportTrashcanDTO.getReport_category();
-            Long reportTrashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
-            List<String> findReportTrashcanEmail = trashcanRepository.findReportTrashcanByIdAndReportCategoryAndTrashcanId(reportCategory, email, reportTrashcanId);
-
-            if (findReportTrashcanEmail.isEmpty() == false) {
-                throw new IllegalStateException("이미 신고한 쓰레기통입니다.");
-            }
-
             User user = userRepository.findByEmail(email).get(0);
             Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
+            Report_Trashcan reportTrashcan = new Report_Trashcan();
             Trashcan trashcan = trashcanRepository.find(trashcanId);
-            Report_Trashcan reportTrashcan = new Report_Trashcan(user,trashcan,reportTrashcanDTO.getReport_category());
-            trashcanRepository.saveReportTrashcan(reportTrashcan);
+            reportTrashcan.setTrashcan(trashcan);
+            reportTrashcan.setUser(user);
+            reportTrashcan.setReport_category(reportTrashcanDTO.getReport_category());
+            reportTrashcan.setModifyStatus(false);
+            Long reportTrashcanId = trashcanRepository.saveReportTrashcan(reportTrashcan);
 
+            if(trashcanRepository.findReportTrashcan(reportTrashcanId) != reportTrashcan){
+                throw new IllegalStateException("신고 실패");
+            }
         } catch (IllegalStateException e) {
             logger.error("Report failed");
             return ResponseEntity.badRequest().body("Report failed");
@@ -90,29 +92,5 @@ public class TrashcanService {
 
     public int findReportCount(Long TrashcanId){
         return trashcanRepository.findReportCount(TrashcanId);
-    }
-
-    @Transactional
-    public ResponseEntity<?> deleteReportTrashcan(ReportTrashcanDTO deleteReportTrashcanDTO){
-        try{
-            Long reportTrashcanId = Long.parseLong(deleteReportTrashcanDTO.getTrashcanId());
-            String reportCategory = deleteReportTrashcanDTO.getReport_category();
-
-            System.out.println(" ========================");
-            System.out.println("reportCategory = " + reportCategory);
-            System.out.println("reportTrashcanId = " + reportTrashcanId);
-            System.out.println(" ========================");
-
-            trashcanRepository.deleteReportTrashcan(reportTrashcanId, reportCategory);
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("삭제 실패");
-        }
-        return ResponseEntity.ok("삭제완료");
-    }
-
-    @Transactional
-    public List<SendReportTrashcanDTO> findReportTrashcans(String email){
-        return trashcanRepository.findReportTrashcansByEmail(email);
     }
 }

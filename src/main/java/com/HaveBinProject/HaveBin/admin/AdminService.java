@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
 import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
@@ -22,6 +23,7 @@ import java.util.List;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final ImageService imageService;
     public List<Unknown_Trashcan> findAll(){ return adminRepository.findAllUnknownTrashcan(); }
 
     public ResponseEntity<?> acceptNewTrashcan(Long unknown_trashcan_id){
@@ -35,7 +37,7 @@ public class AdminService {
 
         trashcan.setLatitude(findUnknownTrashcan.getLatitude());
         trashcan.setLongitude(findUnknownTrashcan.getLongitude());
-        trashcan.setRoadviewImgpath(findUnknownTrashcan.getRoadviewImgpath());
+        trashcan.setRoadviewImgpath(imageService.moveFileInS3(findUnknownTrashcan.getRoadviewImgpath()));
         trashcan.setUserId(findUnknownTrashcan.getUserId());
         trashcan.setCategories(findUnknownTrashcan.getCategories());
         trashcan.setState(findUnknownTrashcan.getState());
