@@ -68,4 +68,7 @@ public class AdminService {
     public List<SendReportTrashcanDTO> findAllReportTrashcan(){
         return adminRepository.findAllReportTrashcan();
     }
+
+
+
 }

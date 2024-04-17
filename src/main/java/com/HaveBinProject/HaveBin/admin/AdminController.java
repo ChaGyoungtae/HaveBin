@@ -52,4 +52,6 @@ public class AdminController {
     public List<SendReportTrashcanDTO> findAllReportTrashcan(){
         return adminService.findAllReportTrashcan();
     }
+
+
 }

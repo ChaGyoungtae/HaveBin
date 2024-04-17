@@ -48,4 +48,6 @@ public class AdminRepository {
         TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt", SendReportTrashcanDTO.class);
         return resultQuery.getResultList();
     }
+
+
 }
