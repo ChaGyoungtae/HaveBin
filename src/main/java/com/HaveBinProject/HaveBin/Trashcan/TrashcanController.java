@@ -39,6 +39,7 @@ public class TrashcanController {
     public ResponseEntity<?> reportTrashcan(@RequestBody ReportTrashcanDTO reportTrashcanDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
 
         String email = userDetails.getUsername();
+        System.out.println("email = " + email);
         return trashcanService.reportTrashcan(reportTrashcanDTO, email);
     }
 
@@ -47,5 +48,17 @@ public class TrashcanController {
     public int findReportCount(@RequestBody ReportCountDTO reportCountDTO){
         Long TrashcanId = Long.parseLong(reportCountDTO.getTrashcanId());
         return trashcanService.findReportCount(TrashcanId);
+    }
+
+    //유저가 신고한 쓰레기통 삭제
+    @PostMapping("/deleteReportTrashcan")
+    public ResponseEntity<?> deleteReportTrashcan(@RequestBody ReportTrashcanDTO deleteReportTrashcanDTO){
+        return trashcanService.deleteReportTrashcan(deleteReportTrashcanDTO);
+    }
+
+    @PostMapping("/findReportTrashcans")
+    public List<SendReportTrashcanDTO> findReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
+        String email = userDetails.getUsername();
+        return trashcanService.findReportTrashcans(email);
     }
 }
