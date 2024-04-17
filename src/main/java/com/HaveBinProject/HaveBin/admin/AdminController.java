@@ -32,6 +32,7 @@ public class AdminController {
     // 임시 쓰레기통 -> 새로운 쓰레기통으로 등록
     @PostMapping("/acceptNewTrashcan")
     public ResponseEntity<?> acceptNewTrashcan(@RequestBody String unknown_trashcan_id) {
+        System.out.println("unknown_trashcan_id = " + unknown_trashcan_id);
         return adminService.acceptNewTrashcan(Long.parseLong(unknown_trashcan_id));
     }
 

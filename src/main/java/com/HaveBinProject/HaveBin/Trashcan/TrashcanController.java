@@ -2,9 +2,11 @@ package com.HaveBinProject.HaveBin.Trashcan;
 
 import com.HaveBinProject.HaveBin.DTO.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,8 +15,6 @@ import java.util.List;
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
-
-    //String role = userDetails.getAuthorities().toString();
 
     @GetMapping("/findTrashcans")
     public List<Trashcan> sendAll(){
@@ -29,9 +29,9 @@ public class TrashcanController {
 
     //유저가 새로 신고한 쓰레기통 데이터를 일단 unknown_trashcan 테이블에 저장
     @PostMapping("/newTrashcan")
-    public ResponseEntity<?> newTrashcan(@RequestBody RegisterTrashcanDTO registerTrashcanDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<?> newTrashcan(@RequestPart(value = "RegisterTrashcanDTO") RegisterTrashcanDTO registerTrashcanDTO, @RequestPart(value = "image") MultipartFile files , @AuthenticationPrincipal CustomUserDetails userDetails) {
         String email = userDetails.getUsername();
-        return trashcanService.register_unknown(registerTrashcanDTO, email);
+        return trashcanService.register_unknown(registerTrashcanDTO, files, email);
     }
 
     //유저가 기존에 있던 쓰레기통을 신고 / reportTrashcan에 저장

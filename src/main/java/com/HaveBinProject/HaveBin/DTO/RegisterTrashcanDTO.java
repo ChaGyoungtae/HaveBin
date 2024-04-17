@@ -3,26 +3,19 @@ package com.HaveBinProject.HaveBin.DTO;
 import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Getter @Setter
 public class RegisterTrashcanDTO {
-
-    private final ImageService imageService;
 
     private double latitude;
     private double longitude;
-    private String roadviewImgpath;
     private String categories;
-    private String state;
     private String report_date;
-    private MultipartFile image;
 
     public Unknown_Trashcan toEntity(RegisterTrashcanDTO registerTrashcanDTO, Long userid) {
         Unknown_Trashcan trashcan = new Unknown_Trashcan();
@@ -30,11 +23,15 @@ public class RegisterTrashcanDTO {
         trashcan.setUserId(userid);
         trashcan.setLatitude(registerTrashcanDTO.getLatitude());
         trashcan.setLongitude(registerTrashcanDTO.getLongitude());
-        trashcan.setRoadviewImgpath(registerTrashcanDTO.getRoadviewImgpath());
         trashcan.setCategories(registerTrashcanDTO.getCategories());
-        trashcan.setState(registerTrashcanDTO.getState());
+        trashcan.setState("impossible");
         trashcan.setDate(registerTrashcanDTO.getReport_date());
-        trashcan.setRoadviewImgpath(imageService.uploadImageToS3(registerTrashcanDTO.getImage(), "Unknown_Trashcan"));
+        //trashcan.setRoadviewImgpath(imageService.uploadImageToS3(image, "Unknown_Trashcan"));
+//        try {
+//            trashcan.setRoadviewImgpath(imageService.uploadImageToS3(registerTrashcanDTO.getImage(), "Unknown_Trashcan"));
+//        } catch (Exception e) {
+//            System.out.println("이미지 업로드 실패");
+//        }
 
         return trashcan;
     }
