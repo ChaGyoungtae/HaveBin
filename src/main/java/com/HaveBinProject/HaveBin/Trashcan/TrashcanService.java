@@ -5,7 +5,8 @@ import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.RequestDTO.RegisterTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.RequestDTO.ResponseDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.PosResponse;
+import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import com.HaveBinProject.HaveBin.User.User;
 import com.HaveBinProject.HaveBin.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,21 +51,22 @@ public class TrashcanService {
         }
         logger.info("register Success");
         return ResponseEntity.ok("register_success");
-
-
     }
 
     //전체 쓰레기통 조회
-    public List<Trashcan> findTrashcans(){
-        return trashcanRepository.findAll();
+    public List<TrashcanData> findTrashcans(){
+        return trashcanRepository.findTrashcanData();
     }
     //특정 쓰레기통 조회
     public Trashcan findOnd(Long id){
         return trashcanRepository.find(id);
     }
 
-    public List<Trashcan> findNearTrashcans(ResponseDTO responseDTO){
-        return trashcanRepository.findNear(responseDTO);
+    public List<TrashcanData> findNearTrashcans(PosResponse posResponse){
+        List<TrashcanData> trashcanDatas= trashcanRepository.findNearTrashcanData(posResponse);
+
+        if(trashcanDatas.isEmpty()) return null;
+        else return trashcanDatas;
     }
 
     //쓰레기통 신고

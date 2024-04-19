@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO {
+public class PosResponse {
     //화면 기준 왼쪽 밑 위경도 / 오른쪽 위 위경도
     private Double neLat;
     private Double neLon;

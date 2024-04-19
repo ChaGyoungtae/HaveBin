@@ -1,7 +1,8 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
-import com.HaveBinProject.HaveBin.RequestDTO.ResponseDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.PosResponse;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -29,20 +30,10 @@ public class TrashcanRepository {
         return em.find(Trashcan.class, trashcanId);
     }
 
-    public List<Trashcan> findAll() {
-        return em.createQuery("SELECT  t from Trashcan t", Trashcan.class)
-                .getResultList();
-    }
-
-    //근처 쓰레기통 찾기
-    public List<Trashcan> findNear(ResponseDTO responseDTO){
-        TypedQuery<Trashcan> resultQuery = em.createQuery("SELECT t from Trashcan t where t.latitude >= :minLat and t.latitude <= :maxLat and t.longitude >= :minLon and t.longitude <= : maxLon", Trashcan.class);
-        resultQuery.setParameter("maxLat", responseDTO.getNeLat());
-        resultQuery.setParameter("maxLon", responseDTO.getNeLon());
-        resultQuery.setParameter("minLat", responseDTO.getSwLat());
-        resultQuery.setParameter("minLon", responseDTO.getSwLon());
-        return resultQuery.getResultList();
-    }
+//    public List<Trashcan> findAll() {
+//        return em.createQuery("SELECT  t from Trashcan t", Trashcan.class)
+//                .getResultList();
+//    }
 
     //쓰레기통 신고
     public Long saveReportTrashcan(Report_Trashcan reportTrashcan){
@@ -53,6 +44,33 @@ public class TrashcanRepository {
     //1개의 신고당한 쓰레기통 조회
     public Report_Trashcan findReportTrashcan(Long reportTrashcanId){
         return em.find(Report_Trashcan.class, reportTrashcanId);
+    }
+
+    public List<TrashcanData> findTrashcanData() {
+        String jpql = "SELECT new com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData(t.id, t.address, t.categories, t.date, t.detailAddress, t.latitude, t.longitude, t.roadviewImgpath, t.state, u.nickname) " +
+                "FROM Trashcan t " +
+                "JOIN User u ON t.userId = u.id";
+
+        TypedQuery<TrashcanData> resultQuery = em.createQuery(jpql, TrashcanData.class);
+        return resultQuery.getResultList();
+    }
+
+
+    //근처 쓰레기통 찾기
+    public List<TrashcanData> findNearTrashcanData(PosResponse posResponse) {
+        String jpql = "SELECT new com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData(t.id, t.address, t.categories, t.date, t.detailAddress, t.latitude, t.longitude, t.roadviewImgpath, t.state, u.nickname) " +
+                "FROM Trashcan t " +
+                "JOIN User u ON t.userId = u.id " +
+                "WHERE t.latitude >= :minLat and t.latitude <= :maxLat and t.longitude >= :minLon and t.longitude <= : maxLon";
+
+        TypedQuery<TrashcanData> resultQuery = em.createQuery(jpql, TrashcanData.class);
+
+        resultQuery.setParameter("maxLat", posResponse.getNeLat());
+        resultQuery.setParameter("maxLon", posResponse.getNeLon());
+        resultQuery.setParameter("minLat", posResponse.getSwLat());
+        resultQuery.setParameter("minLon", posResponse.getSwLon());
+
+        return resultQuery.getResultList();
     }
 
 
