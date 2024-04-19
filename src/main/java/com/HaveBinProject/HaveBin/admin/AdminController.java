@@ -1,15 +1,8 @@
 package com.HaveBinProject.HaveBin.admin;
 
-import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
-import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
+import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Tuple;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.mapping.Any;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

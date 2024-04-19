@@ -1,6 +1,6 @@
 package com.HaveBinProject.HaveBin.Jwt;
 
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.RequestDTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.User.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

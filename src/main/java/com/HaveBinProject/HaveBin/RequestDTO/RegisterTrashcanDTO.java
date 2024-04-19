@@ -1,13 +1,7 @@
-package com.HaveBinProject.HaveBin.DTO;
+package com.HaveBinProject.HaveBin.RequestDTO;
 
-import com.HaveBinProject.HaveBin.AWS.ImageService;
-import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 public class RegisterTrashcanDTO {

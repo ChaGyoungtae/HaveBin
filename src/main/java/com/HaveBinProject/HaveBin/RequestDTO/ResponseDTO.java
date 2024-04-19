@@ -1,9 +1,8 @@
-package com.HaveBinProject.HaveBin.DTO;
+package com.HaveBinProject.HaveBin.RequestDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor

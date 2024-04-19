@@ -1,16 +1,12 @@
 package com.HaveBinProject.HaveBin.User;
 
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
-import com.HaveBinProject.HaveBin.DTO.NicknameDTO;
-import com.HaveBinProject.HaveBin.DTO.RegisterDto;
-import jakarta.annotation.Nullable;
+import com.HaveBinProject.HaveBin.RequestDTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.RequestDTO.NicknameDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.RegisterDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.Response;
 
 import java.util.List;
 

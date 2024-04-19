@@ -1,15 +1,9 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
-import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
+import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
-import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
-import jakarta.persistence.Tuple;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.HaveBinProject.HaveBin.Security;
 
 
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.RequestDTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.Jwt.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

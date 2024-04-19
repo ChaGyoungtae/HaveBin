@@ -1,6 +1,6 @@
 package com.HaveBinProject.HaveBin.Security;
 
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.RequestDTO.CustomUserDetails;
 import com.HaveBinProject.HaveBin.User.User;
 import com.HaveBinProject.HaveBin.User.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

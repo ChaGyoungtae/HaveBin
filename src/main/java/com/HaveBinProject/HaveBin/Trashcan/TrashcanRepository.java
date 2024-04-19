@@ -1,17 +1,13 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
-import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
-import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ResponseDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class TrashcanRepository {
@@ -94,7 +90,7 @@ public class TrashcanRepository {
     }
 
     public List<SendReportTrashcanDTO> findReportTrashcansByEmail(String email){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }

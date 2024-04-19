@@ -1,14 +1,10 @@
 package com.HaveBinProject.HaveBin.admin;
 
-import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
+import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
-import com.HaveBinProject.HaveBin.User.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
@@ -45,7 +41,7 @@ public class AdminRepository {
     }
 
     public List<SendReportTrashcanDTO> findAllReportTrashcan(){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt", SendReportTrashcanDTO.class);
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt", SendReportTrashcanDTO.class);
         return resultQuery.getResultList();
     }
 

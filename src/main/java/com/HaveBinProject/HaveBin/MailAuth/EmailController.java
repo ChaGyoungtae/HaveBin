@@ -1,6 +1,6 @@
 package com.HaveBinProject.HaveBin.MailAuth;
 
-import com.HaveBinProject.HaveBin.DTO.EmailAuthDto;
+import com.HaveBinProject.HaveBin.RequestDTO.EmailAuthDto;
 import com.HaveBinProject.HaveBin.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

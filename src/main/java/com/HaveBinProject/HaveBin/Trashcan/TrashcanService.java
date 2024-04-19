@@ -1,17 +1,15 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
 
-import com.HaveBinProject.HaveBin.DTO.*;
+import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.AWS.ImageService;
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
-import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.DTO.ResponseDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ResponseDTO;
 import com.HaveBinProject.HaveBin.User.User;
 import com.HaveBinProject.HaveBin.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;

@@ -1,12 +1,11 @@
 package com.HaveBinProject.HaveBin.User;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
-import com.HaveBinProject.HaveBin.DTO.CustomUserDetails;
+import com.HaveBinProject.HaveBin.RequestDTO.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor

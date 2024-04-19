@@ -1,4 +1,4 @@
-package com.HaveBinProject.HaveBin.DTO;
+package com.HaveBinProject.HaveBin.RequestDTO;
 
 
 import lombok.AllArgsConstructor;

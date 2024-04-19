@@ -1,8 +1,7 @@
-package com.HaveBinProject.HaveBin.DTO;
+package com.HaveBinProject.HaveBin.RequestDTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.redis.core.RedisHash;
 
 //@RedisHash(value = "null", timeToLive = 180)
 @Getter @Setter
