@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://192.168.11.150:3000", "http://localhost:3000"}, allowCredentials = "true")
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
