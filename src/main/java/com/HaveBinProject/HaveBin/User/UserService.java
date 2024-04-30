@@ -1,8 +1,8 @@
 package com.HaveBinProject.HaveBin.User;
 
-import com.HaveBinProject.HaveBin.DTO.NicknameDTO;
-import com.HaveBinProject.HaveBin.DTO.RegisterDto;
-import com.HaveBinProject.HaveBin.DTO.UserDataDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.NicknameDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.RegisterDto;
+import com.HaveBinProject.HaveBin.RequestDTO.UserDataDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

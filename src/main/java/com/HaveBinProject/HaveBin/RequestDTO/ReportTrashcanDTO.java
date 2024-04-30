@@ -1,7 +1,5 @@
-package com.HaveBinProject.HaveBin.DTO;
+package com.HaveBinProject.HaveBin.RequestDTO;
 
-import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
-import com.HaveBinProject.HaveBin.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

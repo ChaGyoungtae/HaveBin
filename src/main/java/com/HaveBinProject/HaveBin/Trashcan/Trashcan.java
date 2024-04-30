@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
