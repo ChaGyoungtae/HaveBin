@@ -1,16 +1,20 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
-import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.Trashcan.Reverse_Geocoding;
+import com.HaveBinProject.HaveBin.DTO.RegisterTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.ReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.DTO.SendReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
+import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
+import jakarta.persistence.Tuple;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -23,9 +27,6 @@ public class AdminService {
     public List<Unknown_Trashcan> findAll(){ return adminRepository.findAllUnknownTrashcan(); }
 
     public ResponseEntity<?> acceptNewTrashcan(Long unknown_trashcan_id){
-
-        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
-
         Trashcan trashcan = new Trashcan();
         Unknown_Trashcan findUnknownTrashcan  = null;
         try {
@@ -34,18 +35,8 @@ public class AdminService {
             ResponseEntity.badRequest().body("등록 실패");
         }
 
-        double lat = findUnknownTrashcan.getLatitude();
-        double lon = findUnknownTrashcan.getLongitude();
-        String address = null;
-        try {
-            address = reverseGeocoding.loadLocation(lat,lon);
-        } catch (IOException e){
-            return  ResponseEntity.badRequest().body("역지오코딩 실패");
-        }
-        System.out.println("address: "+address);
-        trashcan.setLatitude(lat);
-        trashcan.setLongitude(lon);
-        trashcan.setAddress(address);
+        trashcan.setLatitude(findUnknownTrashcan.getLatitude());
+        trashcan.setLongitude(findUnknownTrashcan.getLongitude());
         trashcan.setRoadviewImgpath(imageService.moveFileInS3(findUnknownTrashcan.getRoadviewImgpath()));
         trashcan.setUserId(findUnknownTrashcan.getUserId());
         trashcan.setCategories(findUnknownTrashcan.getCategories());
