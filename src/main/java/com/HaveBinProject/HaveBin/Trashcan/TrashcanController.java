@@ -1,8 +1,8 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
-import com.HaveBinProject.HaveBin.DTO.*;
+import com.HaveBinProject.HaveBin.RequestDTO.*;
+import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,14 @@ public class TrashcanController {
     private final TrashcanService trashcanService;
 
     @GetMapping("/findTrashcans")
-    public List<Trashcan> sendAll(){
+    public List<TrashcanData> sendAll(){
         return trashcanService.findTrashcans();
     }
 
     @PostMapping("/getGPS")
-    public List<Trashcan> sendTrashcan(@RequestBody ResponseDTO responseDTO){
-        System.out.println(responseDTO.toString());
-        return trashcanService.findNearTrashcans(responseDTO);
+    public List<TrashcanData> sendTrashcan(@RequestBody PosResponse posResponse){
+        System.out.println(posResponse.toString());
+        return trashcanService.findNearTrashcans(posResponse);
     }
 
     //유저가 새로 신고한 쓰레기통 데이터를 일단 unknown_trashcan 테이블에 저장
