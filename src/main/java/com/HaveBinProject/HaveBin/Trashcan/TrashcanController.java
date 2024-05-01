@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = {("http://localhost:3000"),("http://172.30.1.9:3000")})
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
@@ -44,10 +45,10 @@ public class TrashcanController {
     }
 
     //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
-    @GetMapping("/findReportCount")
+    @PostMapping("/findReportCount")
     public int findReportCount(@RequestBody ReportCountDTO reportCountDTO){
-        Long TrashcanId = Long.parseLong(reportCountDTO.getTrashcanId());
-        return trashcanService.findReportCount(TrashcanId);
+        System.out.println("reportCountDTO = " + reportCountDTO.getTrashcanId());
+        return trashcanService.findReportCount(reportCountDTO.getTrashcanId());
     }
 
     //유저가 신고한 쓰레기통 삭제

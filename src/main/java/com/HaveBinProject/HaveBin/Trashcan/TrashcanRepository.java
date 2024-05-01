@@ -86,7 +86,7 @@ public class TrashcanRepository {
 
         return resultQuery.getResultList();
     }
-    //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
+    // 해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
     public int findReportCount(Long trashcanId){
         String jpql = "SELECT COUNT(rt) FROM Report_Trashcan rt WHERE rt.trashcan.id = :trashcanId";
 
@@ -112,5 +112,4 @@ public class TrashcanRepository {
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }
-
 }
