@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+
 import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.RequestDTO.RegisterTrashcanDTO;
@@ -15,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,39 +32,9 @@ public class TrashcanService {
 
     @Transactional
     //새로운 쓰레기통 등록 아직 미구현
-    // 5미터 반경에 쓰레기통이 이미 있으면 등록 취소
     public ResponseEntity<?> register_unknown(RegisterTrashcanDTO registerTrashcanDTO, MultipartFile file, String email){
 
-        //Trashcan, UnknownTrashcan 두 테이블 모두 없는 신규 쓰레기통이면 등록
         try{
-
-            Double lat = registerTrashcanDTO.getLatitude();
-            Double lon = registerTrashcanDTO.getLongitude();
-
-            //5미터는 0.0000449
-            Double interval = 0.0000449;
-            PosResponse posResponse = new PosResponse(lat+interval,lon+interval, lat-interval, lon-interval );
-            List<TrashcanData> trashcanDataList = findNearTrashcans(posResponse);
-            if (trashcanDataList == null) {
-                trashcanDataList = new ArrayList<>();
-            }
-            System.out.println("trashcanDataList = " + trashcanDataList);
-
-            //등록되어있는 쓰레기통인지 판별
-            if(trashcanDataList.size() > 0){
-                throw new IllegalStateException("이미 등록된 쓰레기통 입니다.");
-            }
-            //이미 신고되어있는 쓰레기통인지 판별
-            List<Unknown_Trashcan> unknownTrashcanList = trashcanRepository.ValidateDuplicateUnknownTrashcan(posResponse);
-            if(unknownTrashcanList == null){
-                unknownTrashcanList = new ArrayList<>();
-            }
-            System.out.println("unknownTrashcanList = " + unknownTrashcanList);
-
-            if(unknownTrashcanList.size() >0){
-                throw new IllegalStateException("이미 등록된 쓰레기통 입니다.");
-            }
-
             Long userId = userRepository.findIdByEmail(email);
             Unknown_Trashcan unknown_trashcan = registerTrashcanDTO.toEntity(registerTrashcanDTO, userId);
 
@@ -73,10 +42,12 @@ public class TrashcanService {
 
             Long trashcanId = trashcanRepository.saveOne_unknown(unknown_trashcan);
 
+            if(!unknown_trashcan.getUnknown_trashcan_id().equals(trashcanId)){
+                throw new IllegalStateException("register_unknown_exception");
+            }
         } catch (IllegalStateException e){
             logger.error("register_unknown_error");
-
-            return ResponseEntity.badRequest().body("이미 등록되거나 신고되어있는 쓰레기통입니다.");
+            return ResponseEntity.badRequest().body("register_unknown_error");
         }
         logger.info("register Success");
         return ResponseEntity.ok("register_success");
@@ -103,9 +74,8 @@ public class TrashcanService {
     public ResponseEntity<?> reportTrashcan(ReportTrashcanDTO reportTrashcanDTO, String email){
 
         try{
-            String reportCategory = reportTrashcanDTO.getReportCategory();
+            String reportCategory = reportTrashcanDTO.getReport_category();
             Long reportTrashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
-
             List<String> findReportTrashcanEmail = trashcanRepository.findReportTrashcanByIdAndReportCategoryAndTrashcanId(reportCategory, email, reportTrashcanId);
 
             if (findReportTrashcanEmail.isEmpty() == false) {
@@ -115,8 +85,7 @@ public class TrashcanService {
             User user = userRepository.findByEmail(email).get(0);
             Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
             Trashcan trashcan = trashcanRepository.find(trashcanId);
-            //카테고리 / 0 : 부정확한 위치, 1:쓰레기통 없음
-            Report_Trashcan reportTrashcan = new Report_Trashcan(user,trashcan,reportTrashcanDTO.getReportCategory());
+            Report_Trashcan reportTrashcan = new Report_Trashcan(user,trashcan,reportTrashcanDTO.getReport_category());
             trashcanRepository.saveReportTrashcan(reportTrashcan);
 
         } catch (IllegalStateException e) {
@@ -135,7 +104,7 @@ public class TrashcanService {
     public ResponseEntity<?> deleteReportTrashcan(ReportTrashcanDTO deleteReportTrashcanDTO){
         try{
             Long reportTrashcanId = Long.parseLong(deleteReportTrashcanDTO.getTrashcanId());
-            String reportCategory = deleteReportTrashcanDTO.getReportCategory();
+            String reportCategory = deleteReportTrashcanDTO.getReport_category();
 
             System.out.println(" ========================");
             System.out.println("reportCategory = " + reportCategory);
@@ -154,6 +123,4 @@ public class TrashcanService {
     public List<SendReportTrashcanDTO> findReportTrashcans(String email){
         return trashcanRepository.findReportTrashcansByEmail(email);
     }
-
-
 }

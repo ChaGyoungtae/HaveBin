@@ -1,19 +1,22 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class Unknown_Trashcan {
+public class Trashcan {
 
-    @Id @GeneratedValue
-    private Long unknown_trashcan_id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private double latitude;
@@ -33,9 +36,15 @@ public class Unknown_Trashcan {
     @Column(nullable = false)
     private String state;
 
+    // 발견 날짜 (YOLO는 0301)
     @Column(nullable = false)
     private String date;
 
-    @Column(nullable = false)
+    // 주소 (주소는 없어도 가능)
+    @Column
+    private String address;
+
+    // 세부주소 (예, 버스정거장, 택시승강장, 공원 등)
+    @Column
     private String detailAddress;
 }

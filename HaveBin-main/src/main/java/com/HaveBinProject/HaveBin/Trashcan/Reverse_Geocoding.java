@@ -51,7 +51,7 @@ public class Reverse_Geocoding {
             JSONObject firstDocument = documents.getJSONObject(0);
 
             // road_address에서 address_name 추출
-            JSONObject roadAddress = firstDocument.getJSONObject("address");
+            JSONObject roadAddress = firstDocument.getJSONObject("road_address");
             address = roadAddress.getString("address_name");
 
 

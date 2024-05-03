@@ -1,7 +1,6 @@
 package com.HaveBinProject.HaveBin.MailAuth;
 
 import com.HaveBinProject.HaveBin.RequestDTO.EmailAuthDto;
-import com.HaveBinProject.HaveBin.RequestDTO.EmailDTO;
 import com.HaveBinProject.HaveBin.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,8 @@ public class EmailController {
     private final UserService userService;
 
     @PostMapping("/validateDuplicateUser")
-    public ResponseEntity<?> mailConfirm(@RequestBody EmailDTO emailDTO) throws Exception {
-        String email = emailDTO.getEmail();
-
+    public ResponseEntity<?> mailConfirm(@RequestBody String email) throws Exception {
         boolean pass = userService.validateDuplicateUser(email);
-
-        System.out.println("email: "+ email);
 
         if(!pass) { return ResponseEntity.badRequest().body("duplicate"); }
 

@@ -11,6 +11,6 @@ import lombok.Setter;
 public class ReportTrashcanDTO {
 
     private String trashcanId;
-    private String reportCategory;
+    private String report_category;
 
 }

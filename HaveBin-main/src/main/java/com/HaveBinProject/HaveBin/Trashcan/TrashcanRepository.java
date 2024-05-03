@@ -112,17 +112,4 @@ public class TrashcanRepository {
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }
-
-    public List<Unknown_Trashcan> ValidateDuplicateUnknownTrashcan(PosResponse posResponse){
-        String jpql = "SELECT ut.unknown_trashcan_id from Unknown_Trashcan ut WHERE ut.latitude >= :minLat and ut.latitude <= :maxLat and ut.longitude >= :minLon and ut.longitude <= : maxLon";
-        TypedQuery<Unknown_Trashcan> resultQuery = em.createQuery(jpql, Unknown_Trashcan.class);
-
-        resultQuery.setParameter("maxLat", posResponse.getNeLat());
-        resultQuery.setParameter("maxLon", posResponse.getNeLon());
-        resultQuery.setParameter("minLat", posResponse.getSwLat());
-        resultQuery.setParameter("minLon", posResponse.getSwLon());
-
-        return resultQuery.getResultList();
-    }
-
 }

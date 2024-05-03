@@ -3,16 +3,13 @@ package com.HaveBinProject.HaveBin.RequestDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import lombok.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @Getter @Setter
 public class RegisterTrashcanDTO {
 
     private double latitude;
     private double longitude;
     private String categories;
-    private String detailAddress;
+    //private String report_date;
 
     public Unknown_Trashcan toEntity(RegisterTrashcanDTO registerTrashcanDTO, Long userid) {
         Unknown_Trashcan trashcan = new Unknown_Trashcan();
@@ -22,14 +19,7 @@ public class RegisterTrashcanDTO {
         trashcan.setLongitude(registerTrashcanDTO.getLongitude());
         trashcan.setCategories(registerTrashcanDTO.getCategories());
         trashcan.setState("impossible");
-        trashcan.setDetailAddress(registerTrashcanDTO.getDetailAddress());
-
-        Date currentDate = new Date();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
-        String formattedDate = dateFormat.format(currentDate);
-
-        trashcan.setDate(formattedDate);
+        trashcan.setDate("날짜를 기입해 주세요.");
         //trashcan.setRoadviewImgpath(imageService.uploadImageToS3(image, "Unknown_Trashcan"));
 //        try {
 //            trashcan.setRoadviewImgpath(imageService.uploadImageToS3(registerTrashcanDTO.getImage(), "Unknown_Trashcan"));

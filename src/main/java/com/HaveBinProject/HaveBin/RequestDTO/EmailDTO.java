@@ -3,14 +3,10 @@ package com.HaveBinProject.HaveBin.RequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class ReportTrashcanDTO {
-
-    private String trashcanId;
-    private String reportCategory;
-
+@NoArgsConstructor
+public class EmailDTO {
+    private String email;
 }

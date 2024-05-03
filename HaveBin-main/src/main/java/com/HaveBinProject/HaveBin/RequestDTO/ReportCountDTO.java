@@ -5,11 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class ReportCountDTO {
-
-    private String TrashcanId;
-
-    public ReportCountDTO(String trashcanId) {
-        TrashcanId = trashcanId;
-    }
+    private Long TrashcanId;
 }
 

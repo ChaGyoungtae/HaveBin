@@ -1,16 +1,21 @@
 package com.HaveBinProject.HaveBin.RequestDTO;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReportTrashcanDTO {
-
-    private String trashcanId;
+public class SendReportTrashcanDTO {
+    private Long id;
+    private Long userId;
+    private Long trashcanId;
     private String reportCategory;
+    private Boolean modifyStatus;
 
 }
+

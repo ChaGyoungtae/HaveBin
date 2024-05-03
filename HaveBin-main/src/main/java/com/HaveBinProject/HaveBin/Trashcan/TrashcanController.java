@@ -3,13 +3,11 @@ package com.HaveBinProject.HaveBin.Trashcan;
 import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -43,18 +41,14 @@ public class TrashcanController {
 
         String email = userDetails.getUsername();
         System.out.println("email = " + email);
-        System.out.println("id: "+reportTrashcanDTO.getTrashcanId());
-        System.out.println("category: "+reportTrashcanDTO.getReportCategory());
         return trashcanService.reportTrashcan(reportTrashcanDTO, email);
     }
 
     //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
     @PostMapping("/findReportCount")
     public int findReportCount(@RequestBody ReportCountDTO reportCountDTO){
-        Long trashcandId = Long.parseLong(reportCountDTO.getTrashcanId());
-        Integer reportCount = trashcanService.findReportCount(trashcandId);
-
-        return reportCount;
+        System.out.println("reportCountDTO = " + reportCountDTO.getTrashcanId());
+        return trashcanService.findReportCount(reportCountDTO.getTrashcanId());
     }
 
     //유저가 신고한 쓰레기통 삭제
@@ -67,16 +61,5 @@ public class TrashcanController {
     public List<SendReportTrashcanDTO> findReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
         String email = userDetails.getUsername();
         return trashcanService.findReportTrashcans(email);
-    }
-
-
-    @PostMapping("/testRG")
-    public String test(@RequestBody testDTO testDTO){
-        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
-        try {
-            return reverseGeocoding.loadLocation(testDTO.getLat(),testDTO.getLon());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

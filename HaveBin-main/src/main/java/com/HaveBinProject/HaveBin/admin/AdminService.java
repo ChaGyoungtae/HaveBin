@@ -2,7 +2,10 @@ package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.Trashcan.*;
+import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
+import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
+import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
+import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import jakarta.persistence.Tuple;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -32,30 +33,14 @@ public class AdminService {
             ResponseEntity.badRequest().body("등록 실패");
         }
 
-        double lat = findUnknownTrashcan.getLatitude();
-        double lon = findUnknownTrashcan.getLongitude();
-
-        trashcan.setLatitude(lat);
-        trashcan.setLongitude(lon);
+        trashcan.setLatitude(findUnknownTrashcan.getLatitude());
+        trashcan.setLongitude(findUnknownTrashcan.getLongitude());
         trashcan.setRoadviewImgpath(imageService.moveFileInS3(findUnknownTrashcan.getRoadviewImgpath()));
         trashcan.setUserId(findUnknownTrashcan.getUserId());
         trashcan.setCategories(findUnknownTrashcan.getCategories());
         trashcan.setState(findUnknownTrashcan.getState());
         trashcan.setDate(findUnknownTrashcan.getDate());
-        trashcan.setDetailAddress(findUnknownTrashcan.getDetailAddress());
 
-        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
-
-        String address = null;
-        try {
-            address = reverseGeocoding.loadLocation(lat,lon);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        System.out.println("address = " + address);
-        trashcan.setAddress(address);
         return ResponseEntity.ok(adminRepository.acceptNewTrashcan(trashcan));
     }
 

@@ -28,14 +28,11 @@ public class Unknown_Trashcan {
     private Long userId;
 
     @Column(nullable = false)
+    private String date;
+
+    @Column(nullable = false)
     private String categories;
 
     @Column(nullable = false)
     private String state;
-
-    @Column(nullable = false)
-    private String date;
-
-    @Column(nullable = false)
-    private String detailAddress;
 }
