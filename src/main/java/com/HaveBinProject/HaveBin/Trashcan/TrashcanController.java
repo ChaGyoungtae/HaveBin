@@ -51,10 +51,7 @@ public class TrashcanController {
     //해당 쓰레기통을 신고한 사람의 수 조회(신고 횟수)
     @PostMapping("/findReportCount")
     public int findReportCount(@RequestBody ReportCountDTO reportCountDTO){
-        Long trashcandId = Long.parseLong(reportCountDTO.getTrashcanId());
-        Integer reportCount = trashcanService.findReportCount(trashcandId);
-
-        return reportCount;
+        return trashcanService.findReportCount(reportCountDTO.getTrashcanId());
     }
 
     //유저가 신고한 쓰레기통 삭제
@@ -68,16 +65,4 @@ public class TrashcanController {
         String email = userDetails.getUsername();
         return trashcanService.findReportTrashcans(email);
     }
-
-
-    @PostMapping("/testRG")
-    public String test(@RequestBody testDTO testDTO){
-        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
-        try {
-            return reverseGeocoding.loadLocation(testDTO.getLat(),testDTO.getLon());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

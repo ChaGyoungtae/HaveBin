@@ -55,7 +55,9 @@ public class AdminRepository {
         trashcan.setLongitude(reportDTO.getLongitude());
         em.persist(trashcan);
 
+        System.out.println("test");
         Report_Trashcan reportTrashcan = em.find(Report_Trashcan.class, reportDTO.getReportId());
+        System.out.println(reportTrashcan.getModifyStatus());
         reportTrashcan.setModifyStatus(true);
         em.persist(reportTrashcan);
 

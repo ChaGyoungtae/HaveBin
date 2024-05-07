@@ -79,7 +79,7 @@ public class TrashcanRepository {
         System.out.println("reportCategory = " + reportCategory);
         System.out.println("userEmail = " + userEmail);
 
-        TypedQuery<String> resultQuery = em.createQuery("select rt.user.email from Report_Trashcan rt where rt.user.email = :userEmail and rt.report_category = :reportCategory and rt.trashcan.id = :trashcanId", String.class);
+        TypedQuery<String> resultQuery = em.createQuery("select rt.user.email from Report_Trashcan rt where rt.user.email = :userEmail and rt.reportCategory = :reportCategory and rt.trashcan.id = :trashcanId", String.class);
         resultQuery.setParameter("userEmail", userEmail);
         resultQuery.setParameter("reportCategory", reportCategory);
         resultQuery.setParameter("trashcanId", trashcanId);
@@ -99,16 +99,18 @@ public class TrashcanRepository {
     }
 
     public void deleteReportTrashcan(Long reportTrashcanId, String reportCategory){
-        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.id = :reportTrashcanId and rt.report_category = :reportCategory", Report_Trashcan.class);
+        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.trashcan.id = :reportTrashcanId and rt.reportCategory = :reportCategory", Report_Trashcan.class);
         resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
         resultQuery.setParameter("reportCategory",reportCategory);
         Report_Trashcan reportTrashcan = resultQuery.getSingleResult();
+        System.out.println("reportTrashcan = " + reportTrashcan);
         em.remove(reportTrashcan);
+
 
     }
 
     public List<SendReportTrashcanDTO> findReportTrashcansByEmail(String email){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }

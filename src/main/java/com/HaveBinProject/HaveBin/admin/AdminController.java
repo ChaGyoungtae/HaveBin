@@ -33,8 +33,9 @@ public class AdminController {
 
     // 새로운 쓰레기통 등록 후 임시 쓰레기통 데이터 삭제
     @PostMapping("/deleteUnknownTrashcan")
-    public ResponseEntity<?> deleteUnknownTrashcan(@RequestBody String unknown_trashcan_id) {
-        return adminService.deleteUnknownTrashcan(Long.parseLong(unknown_trashcan_id));
+    public ResponseEntity<?> deleteUnknownTrashcan(@RequestBody Long unknown_trashcan_id) {
+        System.out.println("unknown_trashcan_id = " + unknown_trashcan_id);
+        return adminService.deleteUnknownTrashcan(unknown_trashcan_id);
     }
 
     //기존에 있는 쓰레기통 삭제

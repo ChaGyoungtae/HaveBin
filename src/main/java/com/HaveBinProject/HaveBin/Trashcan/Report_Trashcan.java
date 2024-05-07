@@ -29,16 +29,16 @@ public class Report_Trashcan {
     private Trashcan trashcan;
 
     @Column(nullable = false)
-    private String report_category;
+    private String reportCategory;
 
     //false 면 처리중(빨간색글씨) / ture 면 처리완료(초록색글씨)
     @Column(nullable = false)
     private Boolean ModifyStatus;
 
-    public Report_Trashcan(User user, Trashcan trashcan, String report_category) {
+    public Report_Trashcan(User user, Trashcan trashcan, String reportCategory) {
         this.user = user;
         this.trashcan = trashcan;
-        this.report_category = report_category;
+        this.reportCategory = reportCategory;
         ModifyStatus = false;
     }
 
