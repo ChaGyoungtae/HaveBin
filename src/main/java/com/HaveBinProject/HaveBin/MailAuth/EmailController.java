@@ -24,7 +24,7 @@ public class EmailController {
 
         boolean pass = userService.validateDuplicateUser(email);
 
-        System.out.println("email: "+ email);
+        System.out.println("email: " + email + " || 길이: " + email.length());
 
         if(!pass) { return ResponseEntity.badRequest().body("duplicate"); }
 

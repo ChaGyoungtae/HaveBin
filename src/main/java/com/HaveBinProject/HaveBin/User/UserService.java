@@ -46,8 +46,8 @@ public class UserService {
     @Transactional
     public boolean validateDuplicateUser(String email) {
         System.out.println("email = " + email);
-        email = email.substring(1);
-        email = email.substring(0, email.length() - 1);
+        //email = email.substring(1);
+        //email = email.substring(0, email.length() - 1);
 
         //중복 검출 시 예외 발생
         try {
