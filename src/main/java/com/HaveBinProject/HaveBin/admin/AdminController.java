@@ -1,7 +1,9 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("/adminPage")
+    @GetMapping("/findAllUnknownTrashcans")
     public List<Unknown_Trashcan> adminPage(){
         return adminService.findAll();
     }
@@ -48,5 +50,10 @@ public class AdminController {
     }
 
 
+    //reportTrashcan에 있는 쓰레기통 데이터 수정
+    @PostMapping("/modifyTrashcan")
+    public ResponseEntity<?> modifyTrashcan(@RequestBody ReportDTO reportDTO){
+        return adminService.modifyTrashcan(reportDTO);
+    }
 
 }

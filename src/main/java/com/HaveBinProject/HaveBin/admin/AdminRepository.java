@@ -1,7 +1,10 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.Trashcan.Report_Trashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Trashcan;
+import com.HaveBinProject.HaveBin.Trashcan.TrashcanRepository;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -45,5 +48,17 @@ public class AdminRepository {
         return resultQuery.getResultList();
     }
 
+    public Long modifyTrashcan(ReportDTO reportDTO){
 
+        Trashcan trashcan = em.find(Trashcan.class, reportDTO.getTrashcanId());
+        trashcan.setLatitude(reportDTO.getLatitude());
+        trashcan.setLongitude(reportDTO.getLongitude());
+        em.persist(trashcan);
+
+        Report_Trashcan reportTrashcan = em.find(Report_Trashcan.class, reportDTO.getReportId());
+        reportTrashcan.setModifyStatus(true);
+        em.persist(reportTrashcan);
+
+        return Long.parseLong(reportDTO.getReportId());
+    }
 }

@@ -1,6 +1,7 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
+import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.*;
 import jakarta.persistence.Tuple;
@@ -40,7 +41,7 @@ public class AdminService {
         trashcan.setRoadviewImgpath(imageService.moveFileInS3(findUnknownTrashcan.getRoadviewImgpath()));
         trashcan.setUserId(findUnknownTrashcan.getUserId());
         trashcan.setCategories(findUnknownTrashcan.getCategories());
-        trashcan.setState(findUnknownTrashcan.getState());
+        trashcan.setState("possible");
         trashcan.setDate(findUnknownTrashcan.getDate());
         trashcan.setDetailAddress(findUnknownTrashcan.getDetailAddress());
 
@@ -85,5 +86,14 @@ public class AdminService {
     }
 
 
+    public ResponseEntity<?> modifyTrashcan(ReportDTO reportDTO){
+
+        try{
+            adminRepository.modifyTrashcan(reportDTO);
+        } catch (Exception e) {
+            ResponseEntity.badRequest().body("수정 실패");
+        }
+        return ResponseEntity.ok("수정 완료");
+    }
 
 }
