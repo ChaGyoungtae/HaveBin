@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.admin;
 
+import com.HaveBinProject.HaveBin.RequestDTO.DeleteTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
@@ -40,8 +41,8 @@ public class AdminController {
 
     //기존에 있는 쓰레기통 삭제
     @PostMapping("/deleteTrashcan")
-    public ResponseEntity<?> deleteTrashcan(@RequestBody String trashcan_id) {
-        return adminService.deleteTrashcan(Long.parseLong(trashcan_id));
+    public ResponseEntity<?> deleteTrashcan(@RequestBody DeleteTrashcanDTO deleteTrashcanDTO) {
+        return adminService.deleteTrashcan(deleteTrashcanDTO.getTrashcanId());
     }
 
     //신고한 쓰레기통 목록 조회

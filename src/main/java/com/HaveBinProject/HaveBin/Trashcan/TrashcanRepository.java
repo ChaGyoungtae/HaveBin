@@ -127,4 +127,9 @@ public class TrashcanRepository {
         return resultQuery.getResultList();
     }
 
+    public List<SendReportTrashcanDTO> myReportTrashcans(String email){
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
+        resultQuery.setParameter("email",email);
+        return resultQuery.getResultList();
+    }
 }

@@ -65,4 +65,10 @@ public class TrashcanController {
         String email = userDetails.getUsername();
         return trashcanService.findReportTrashcans(email);
     }
+
+    @PostMapping("/myReportTrashcans")
+    public List<SendReportTrashcanDTO> myReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
+        String email = userDetails.getUsername();
+        return trashcanService.myReportTrashcans(email);
+    }
 }

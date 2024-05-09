@@ -150,10 +150,11 @@ public class TrashcanService {
         return ResponseEntity.ok("삭제완료");
     }
 
-    @Transactional
     public List<SendReportTrashcanDTO> findReportTrashcans(String email){
         return trashcanRepository.findReportTrashcansByEmail(email);
     }
 
-
+    public List<SendReportTrashcanDTO> myReportTrashcans(String email){
+        return trashcanRepository.myReportTrashcans(email);
+    }
 }

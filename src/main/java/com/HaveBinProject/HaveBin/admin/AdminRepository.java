@@ -44,7 +44,7 @@ public class AdminRepository {
     }
 
     public List<SendReportTrashcanDTO> findAllReportTrashcan(){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.report_category,rt.ModifyStatus) from Report_Trashcan rt", SendReportTrashcanDTO.class);
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.ModifyStatus) from Report_Trashcan rt", SendReportTrashcanDTO.class);
         return resultQuery.getResultList();
     }
 
