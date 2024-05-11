@@ -9,6 +9,7 @@ import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import com.HaveBinProject.HaveBin.User.User;
 import com.HaveBinProject.HaveBin.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class TrashcanService {
     private final TrashcanRepository trashcanRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -119,10 +121,16 @@ public class TrashcanService {
             Report_Trashcan reportTrashcan = new Report_Trashcan(user,trashcan,reportTrashcanDTO.getReportCategory());
             trashcanRepository.saveReportTrashcan(reportTrashcan);
 
+
+            //조회용 테이블에도 저장
+            ShowReportTrashcan showReportTrashcan = new ShowReportTrashcan(email,trashcanId,reportCategory);
+            trashcanRepository.saveShowReportTrashcan(showReportTrashcan);
+
         } catch (IllegalStateException e) {
             logger.error("Report failed");
             return ResponseEntity.badRequest().body("Report failed");
         }
+
         return ResponseEntity.ok("Report success!");
 
     }
@@ -132,7 +140,7 @@ public class TrashcanService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteReportTrashcan(ReportTrashcanDTO deleteReportTrashcanDTO){
+    public ResponseEntity<?> deleteReportTrashcan(ReportTrashcanDTO deleteReportTrashcanDTO, String email){
         try{
             Long reportTrashcanId = Long.parseLong(deleteReportTrashcanDTO.getTrashcanId());
             String reportCategory = deleteReportTrashcanDTO.getReportCategory();
@@ -142,7 +150,12 @@ public class TrashcanService {
             System.out.println("reportTrashcanId = " + reportTrashcanId);
             System.out.println(" ========================");
 
-            trashcanRepository.deleteReportTrashcan(reportTrashcanId, reportCategory);
+            //조회용 테이블에서 삭제 전 RT 에 있으면 그거 먼저 삭제
+            trashcanRepository.deleteReportTrashcan(reportTrashcanId, reportCategory, email);
+
+            //RT에서 신고내역 삭제 후 조회용 테이블에서 삭제
+            trashcanRepository.deleteShowReportTrashcan(reportTrashcanId,reportCategory,email);
+
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("삭제 실패");
@@ -150,11 +163,8 @@ public class TrashcanService {
         return ResponseEntity.ok("삭제완료");
     }
 
-    public List<SendReportTrashcanDTO> findReportTrashcans(String email){
-        return trashcanRepository.findReportTrashcansByEmail(email);
-    }
 
-    public List<SendReportTrashcanDTO> myReportTrashcans(String email){
+    public List<MyReportTrashcanDTO> myReportTrashcans(String email){
         return trashcanRepository.myReportTrashcans(email);
     }
 }

@@ -2,6 +2,7 @@ package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.RequestDTO.DeleteTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import lombok.Getter;
@@ -40,9 +41,21 @@ public class AdminController {
     }
 
     //기존에 있는 쓰레기통 삭제
+    // 삭제 하기 전에 다른 유저들의 해당 쓰레기통 신고 내역 삭제
+    // 삭제 되면 ShowReportTrashcan에 modifyStatus에 반영
     @PostMapping("/deleteTrashcan")
-    public ResponseEntity<?> deleteTrashcan(@RequestBody DeleteTrashcanDTO deleteTrashcanDTO) {
-        return adminService.deleteTrashcan(deleteTrashcanDTO.getTrashcanId());
+    public ResponseEntity<?> deleteTrashcan(@RequestBody ReportTrashcanDTO reportTrashcanDTO) {
+
+
+        Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
+
+        try {
+            adminService.deleteReportTrashcans(trashcanId, reportTrashcanDTO.getReportCategory());
+        } catch (Exception e) {
+            ResponseEntity.badRequest().body("신고내역 삭제 실패");
+        }
+
+        return adminService.deleteTrashcan(trashcanId);
     }
 
     //신고한 쓰레기통 목록 조회

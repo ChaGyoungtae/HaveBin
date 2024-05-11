@@ -1,5 +1,6 @@
 package com.HaveBinProject.HaveBin.Trashcan;
 
+import com.HaveBinProject.HaveBin.RequestDTO.MyReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.PosResponse;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
@@ -39,6 +40,12 @@ public class TrashcanRepository {
     public Long saveReportTrashcan(Report_Trashcan reportTrashcan){
         em.persist(reportTrashcan);
         return reportTrashcan.getId();
+    }
+
+    //조회용
+    public Long saveShowReportTrashcan(ShowReportTrashcan showReportTrashcan){
+        em.persist(showReportTrashcan);
+        return showReportTrashcan.getId();
     }
 
     //1개의 신고당한 쓰레기통 조회
@@ -98,19 +105,29 @@ public class TrashcanRepository {
         return count != null ? count.intValue() : 0;
     }
 
-    public void deleteReportTrashcan(Long reportTrashcanId, String reportCategory){
-        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.trashcan.id = :reportTrashcanId and rt.reportCategory = :reportCategory", Report_Trashcan.class);
+    //사용자가 신고내역 삭제
+    public void deleteReportTrashcan(Long reportTrashcanId, String reportCategory, String email){
+        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.trashcan.id = :reportTrashcanId and rt.reportCategory = :reportCategory and rt.user.email = :email", Report_Trashcan.class);
         resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
         resultQuery.setParameter("reportCategory",reportCategory);
+        resultQuery.setParameter("email", email);
         Report_Trashcan reportTrashcan = resultQuery.getSingleResult();
         System.out.println("reportTrashcan = " + reportTrashcan);
         em.remove(reportTrashcan);
+    }
 
-
+    public void deleteShowReportTrashcan(Long reportTrashcanId, String reportCategory, String email){
+        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery("select rt from ShowReportTrashcan rt where rt.trashcanId = :reportTrashcanId and rt.reportCategory = :reportCategory and rt.email = :email", ShowReportTrashcan.class);
+        resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
+        resultQuery.setParameter("reportCategory",reportCategory);
+        resultQuery.setParameter("email", email);
+        ShowReportTrashcan reportTrashcan = resultQuery.getSingleResult();
+        System.out.println("reportTrashcan = " + reportTrashcan);
+        em.remove(reportTrashcan);
     }
 
     public List<SendReportTrashcanDTO> findReportTrashcansByEmail(String email){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
+        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.modifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }
@@ -127,8 +144,12 @@ public class TrashcanRepository {
         return resultQuery.getResultList();
     }
 
-    public List<SendReportTrashcanDTO> myReportTrashcans(String email){
-        TypedQuery<SendReportTrashcanDTO> resultQuery = em.createQuery("SELECT new com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO(rt.id,rt.user.id,rt.trashcan.id,rt.reportCategory,rt.ModifyStatus) from Report_Trashcan rt where rt.user.email = :email", SendReportTrashcanDTO.class);
+    public List<MyReportTrashcanDTO> myReportTrashcans(String email){
+        String jpql = "SELECT new com.HaveBinProject.HaveBin.RequestDTO.MyReportTrashcanDTO(rt.id,rt.email,rt.trashcanId, rt.reportCategory, rt.modifyStatus, t.detailAddress) " +
+                "from ShowReportTrashcan rt " +
+                "join Trashcan t on rt.trashcanId = t.id " +
+                "where rt.email = :email";
+        TypedQuery<MyReportTrashcanDTO> resultQuery = em.createQuery(jpql, MyReportTrashcanDTO.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }

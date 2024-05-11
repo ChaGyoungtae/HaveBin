@@ -2,6 +2,7 @@ package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.AWS.ImageService;
 import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.*;
 import jakarta.persistence.Tuple;
@@ -74,6 +75,7 @@ public class AdminService {
 
     public ResponseEntity<?> deleteTrashcan(Long trashcanId){
         try {
+            //삭제하기전 신고한 유저들 해당 쓰레기통 신고내역 삭제
             adminRepository.deleteTrashcan(trashcanId);
         } catch (Exception e) {
             ResponseEntity.badRequest().body("삭제 실패");
@@ -94,6 +96,15 @@ public class AdminService {
             ResponseEntity.badRequest().body("수정 실패");
         }
         return ResponseEntity.ok("수정 완료");
+    }
+
+    public ResponseEntity<?> deleteReportTrashcans(Long reportTrashcanId, String reportCategory){
+        try{
+            adminRepository.deleteReportTrashcans(reportTrashcanId,reportCategory);
+        } catch (Exception e){
+            ResponseEntity.badRequest().body("신고 내역 삭제 실패");
+        }
+        return ResponseEntity.ok("신고 내역 삭제 완료");
     }
 
 }

@@ -1,7 +1,7 @@
 package com.HaveBinProject.HaveBin.Security;
 
-import com.HaveBinProject.HaveBin.Jwt.JWTFilter;
 import com.HaveBinProject.HaveBin.Jwt.JWTUtil;
+import com.HaveBinProject.HaveBin.Jwt.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

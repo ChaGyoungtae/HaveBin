@@ -18,6 +18,7 @@ import java.util.List;
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
+    private final ReportIntervalService reportIntervalService;
 
     @GetMapping("/findTrashcans")
     public List<TrashcanData> sendAll(){
@@ -37,14 +38,24 @@ public class TrashcanController {
         return trashcanService.register_unknown(registerTrashcanDTO, files, email);
     }
 
-    //유저가 기존에 있던 쓰레기통을 신고 / reportTrashcan에 저장
+    //유저가 기존에 있던 쓰레기통을 신고 / reportTrashcan에 저장 / 조회용 테이블에도 저장
     @PostMapping("/reportTrashcan")
     public ResponseEntity<?> reportTrashcan(@RequestBody ReportTrashcanDTO reportTrashcanDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
 
         String email = userDetails.getUsername();
+
+        //관리자가 아니면서 1분 내로 이미 신고를 한 경우 신고 불가
+        if(reportIntervalService.getData(email) != null) {
+            if(userDetails.getUsername() != "admin")
+                return ResponseEntity.badRequest().body("신고는 1분에 1번만 가능합니다. 잠시 뒤에 신고해주세요.");
+        }
+
         System.out.println("email = " + email);
         System.out.println("id: "+reportTrashcanDTO.getTrashcanId());
         System.out.println("category: "+reportTrashcanDTO.getReportCategory());
+
+        reportIntervalService.reportWithExpiration(email, email, 60);
+
         return trashcanService.reportTrashcan(reportTrashcanDTO, email);
     }
 
@@ -54,20 +65,16 @@ public class TrashcanController {
         return trashcanService.findReportCount(reportCountDTO.getTrashcanId());
     }
 
-    //유저가 신고한 쓰레기통 삭제
+    //유저가 신고한 쓰레기통 삭제(조회테이블에서도 삭제)
     @PostMapping("/deleteReportTrashcan")
-    public ResponseEntity<?> deleteReportTrashcan(@RequestBody ReportTrashcanDTO deleteReportTrashcanDTO){
-        return trashcanService.deleteReportTrashcan(deleteReportTrashcanDTO);
+    public ResponseEntity<?> deleteReportTrashcan(@RequestBody ReportTrashcanDTO deleteReportTrashcanDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
+        String email = userDetails.getUsername();
+        return trashcanService.deleteReportTrashcan(deleteReportTrashcanDTO, email);
     }
 
-    @PostMapping("/findReportTrashcans")
-    public List<SendReportTrashcanDTO> findReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
-        String email = userDetails.getUsername();
-        return trashcanService.findReportTrashcans(email);
-    }
 
     @PostMapping("/myReportTrashcans")
-    public List<SendReportTrashcanDTO> myReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public List<MyReportTrashcanDTO> myReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
         String email = userDetails.getUsername();
         return trashcanService.myReportTrashcans(email);
     }
