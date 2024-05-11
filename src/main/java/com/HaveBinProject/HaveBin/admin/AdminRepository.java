@@ -9,6 +9,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Repository
@@ -17,6 +18,7 @@ public class AdminRepository {
 
     @PersistenceContext
     private EntityManager em;
+
 
     public List<Unknown_Trashcan> findAllUnknownTrashcan(){
         return em.createQuery("select ut from Unknown_Trashcan ut", Unknown_Trashcan.class).getResultList();
@@ -50,9 +52,21 @@ public class AdminRepository {
 
     public Long modifyTrashcan(ReportDTO reportDTO){
 
+        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
+
         Trashcan trashcan = em.find(Trashcan.class, reportDTO.getTrashcanId());
         trashcan.setLatitude(reportDTO.getLatitude());
         trashcan.setLongitude(reportDTO.getLongitude());
+        String detailAddress = null;
+        try{
+            detailAddress = reverseGeocoding.loadLocation(reportDTO.getLatitude(), reportDTO.getLongitude());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            trashcan.setDetailAddress(detailAddress);
+        }
+
         System.out.println("trashcan.getLatitude() = " + trashcan.getLatitude());
         System.out.println("trashcan.getLongitude() = " + trashcan.getLongitude());
         em.persist(trashcan);
