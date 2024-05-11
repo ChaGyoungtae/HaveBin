@@ -144,12 +144,11 @@ public class TrashcanRepository {
         return resultQuery.getResultList();
     }
 
-    public List<MyReportTrashcanDTO> myReportTrashcans(String email){
-        String jpql = "SELECT new com.HaveBinProject.HaveBin.RequestDTO.MyReportTrashcanDTO(rt.id,rt.email,rt.trashcanId, rt.reportCategory, rt.modifyStatus, t.detailAddress) " +
+    public List<ShowReportTrashcan> myReportTrashcans(String email){
+        String jpql = "SELECT rt " +
                 "from ShowReportTrashcan rt " +
-                "join Trashcan t on rt.trashcanId = t.id " +
                 "where rt.email = :email";
-        TypedQuery<MyReportTrashcanDTO> resultQuery = em.createQuery(jpql, MyReportTrashcanDTO.class);
+        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery(jpql, ShowReportTrashcan.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
     }

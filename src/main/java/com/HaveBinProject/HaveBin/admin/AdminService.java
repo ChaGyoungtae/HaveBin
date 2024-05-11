@@ -5,8 +5,6 @@ import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.*;
-import jakarta.persistence.Tuple;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -22,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+
     private final ImageService imageService;
     public List<Unknown_Trashcan> findAll(){ return adminRepository.findAllUnknownTrashcan(); }
 
@@ -107,4 +105,20 @@ public class AdminService {
         return ResponseEntity.ok("신고 내역 삭제 완료");
     }
 
+    public ResponseEntity<?> modifyStatus(ReportTrashcanDTO reportTrashcanDTO){
+        Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
+        String reportCategory = reportTrashcanDTO.getReportCategory();
+        try{
+            List<ShowReportTrashcan> showReportTrashcanList = adminRepository.findShowReportTrashcanByTrashcanIdandReportCategory(trashcanId,reportCategory);
+            //status 모두 1로 수정
+            for (ShowReportTrashcan trashcan: showReportTrashcanList){
+                adminRepository.modifyStatus(trashcan);
+            }
+        } catch (IllegalStateException e){
+            ResponseEntity.badRequest().body("modifyStatus 실패");
+        }
+
+        return ResponseEntity.ok("modifyStatus 성공");
+
+    }
 }

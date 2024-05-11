@@ -25,6 +25,9 @@ public class ShowReportTrashcan {
     @Column
     private Long trashcanId;
 
+    @Column
+    private String detailAddress;
+
     @Column(nullable = false)
     private String reportCategory;
 
@@ -32,10 +35,11 @@ public class ShowReportTrashcan {
     @Column(nullable = false)
     private Boolean modifyStatus;
 
-    public ShowReportTrashcan(String email, Long trashcanId, String reportCategory) {
+    public ShowReportTrashcan(String email, Long trashcanId, String detailAddress, String reportCategory) {
         this.email = email;
         this.trashcanId = trashcanId;
         this.reportCategory = reportCategory;
+        this.detailAddress = detailAddress;
         modifyStatus = false;
     }
 }

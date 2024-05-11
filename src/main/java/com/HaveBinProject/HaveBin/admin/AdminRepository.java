@@ -98,7 +98,14 @@ public class AdminRepository {
         }
     }
 
-//    public List<ShowReportTrashcan> findShowReportTrashcanByTrashcanIdandReportCategory(Long reportTrashcanId, String reportCategory){
-//        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery("select srt from ShowReportTrashcan srt where srt.trashcanId =: reporTrashcanId")
-//    }
+    public List<ShowReportTrashcan> findShowReportTrashcanByTrashcanIdandReportCategory(Long reportTrashcanId, String reportCategory){
+        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery("select srt from ShowReportTrashcan srt where srt.trashcanId =: reporTrashcanId and srt.reportCategory =: reportCategory", ShowReportTrashcan.class);
+        resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
+        resultQuery.setParameter("reportCategory",reportCategory);
+        return resultQuery.getResultList();
+    }
+
+    public void modifyStatus(ShowReportTrashcan showReportTrashcan){
+        em.persist(showReportTrashcan);
+    }
 }

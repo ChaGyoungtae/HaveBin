@@ -121,9 +121,10 @@ public class TrashcanService {
             Report_Trashcan reportTrashcan = new Report_Trashcan(user,trashcan,reportTrashcanDTO.getReportCategory());
             trashcanRepository.saveReportTrashcan(reportTrashcan);
 
+            String address = trashcan.getDetailAddress();
 
             //조회용 테이블에도 저장
-            ShowReportTrashcan showReportTrashcan = new ShowReportTrashcan(email,trashcanId,reportCategory);
+            ShowReportTrashcan showReportTrashcan = new ShowReportTrashcan(email,trashcanId,address,reportCategory);
             trashcanRepository.saveShowReportTrashcan(showReportTrashcan);
 
         } catch (IllegalStateException e) {
@@ -167,7 +168,7 @@ public class TrashcanService {
     }
 
 
-    public List<MyReportTrashcanDTO> myReportTrashcans(String email){
+    public List<ShowReportTrashcan> myReportTrashcans(String email){
         return trashcanRepository.myReportTrashcans(email);
     }
 }

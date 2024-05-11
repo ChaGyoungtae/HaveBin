@@ -76,7 +76,7 @@ public class TrashcanController {
 
 
     @PostMapping("/myReportTrashcans")
-    public List<MyReportTrashcanDTO> myReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public List<ShowReportTrashcan> myReportTrashcans(@AuthenticationPrincipal CustomUserDetails userDetails){
         String email = userDetails.getUsername();
         return trashcanService.myReportTrashcans(email);
     }

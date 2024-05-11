@@ -55,7 +55,9 @@ public class AdminController {
             adminService.deleteReportTrashcans(trashcanId, reportTrashcanDTO.getReportCategory());
 
             //사용자들 조회테이블에 해당 쓰레기통 신고내역에 modifyStatus를 1로 변경
-            //List<ShowReportTrashcan> showReportTrashcans =
+            adminService.modifyStatus(reportTrashcanDTO);
+
+
         } catch (Exception e) {
             ResponseEntity.badRequest().body("신고내역 삭제 실패");
         }
