@@ -14,7 +14,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {("http://localhost:3000"),("http://172.30.1.9:3000")})
+@CrossOrigin(origins = {
+        ("http://localhost:3000"),
+        ("http://ec2-43-201-28-219.ap-northeast-2.compute.amazonaws.com:3000"),})
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
