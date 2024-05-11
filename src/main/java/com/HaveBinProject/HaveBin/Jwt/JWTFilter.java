@@ -15,8 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class JWTFilter extends OncePerRequestFilter {
-    private final JWTUtil jwtUtil;
-    public JWTFilter(JWTUtil jwtUtil) { this.jwtUtil = jwtUtil; }
+    private final com.HaveBinProject.HaveBin.Jwt.JWTUtil jwtUtil;
+    public JWTFilter(com.HaveBinProject.HaveBin.Jwt.JWTUtil jwtUtil) { this.jwtUtil = jwtUtil; }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

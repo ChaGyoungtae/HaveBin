@@ -7,26 +7,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @Entity
 @NoArgsConstructor
-public class Report_Trashcan {
+public class ShowReportTrashcan {
 
+
+    //조회용 테이블
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @Column
+    private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="trashcan_id", nullable = false)
-    private Trashcan trashcan;
+    @Column
+    private Long trashcanId;
 
     @Column(nullable = false)
     private String reportCategory;
@@ -35,11 +32,10 @@ public class Report_Trashcan {
     @Column(nullable = false)
     private Boolean modifyStatus;
 
-    public Report_Trashcan(User user, Trashcan trashcan, String reportCategory) {
-        this.user = user;
-        this.trashcan = trashcan;
+    public ShowReportTrashcan(String email, Long trashcanId, String reportCategory) {
+        this.email = email;
+        this.trashcanId = trashcanId;
         this.reportCategory = reportCategory;
         modifyStatus = false;
     }
-
 }
