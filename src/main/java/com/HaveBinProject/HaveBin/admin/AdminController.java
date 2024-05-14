@@ -52,10 +52,10 @@ public class AdminController {
         String category = reportTrashcanDTO.getReportCategory();
 
         try {
-            adminService.deleteReportTrashcans(trashcanId, reportTrashcanDTO.getReportCategory());
+            adminService.deleteReportTrashcans(trashcanId, category);
 
             //사용자들 조회테이블에 해당 쓰레기통 신고내역에 modifyStatus를 1로 변경
-            adminService.modifyStatus(reportTrashcanDTO);
+            adminService.modifyStatus(reportTrashcanDTO, 1);
 
 
         } catch (Exception e) {
@@ -63,6 +63,27 @@ public class AdminController {
         }
 
         return adminService.deleteTrashcan(trashcanId);
+    }
+
+    //잘못된 신고 삭제
+    @PostMapping("/cancelReport")
+    public ResponseEntity<?> cancelReport(@RequestBody ReportTrashcanDTO reportTrashcanDTO){
+
+        Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
+        String category = reportTrashcanDTO.getReportCategory();
+
+        try {
+            adminService.deleteReportTrashcans(trashcanId, category);
+
+            //사용자들 조회테이블에 해당 쓰레기통 신고내역에 modifyStatus를 2로 변경
+            adminService.modifyStatus(reportTrashcanDTO,2);
+
+
+        } catch (Exception e) {
+            ResponseEntity.badRequest().body("신고내역 삭제 실패");
+        }
+
+        return ResponseEntity.ok().body("신고내역 삭제 성공");
     }
 
     //신고한 쓰레기통 목록 조회

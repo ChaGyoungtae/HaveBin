@@ -91,7 +91,7 @@ public class AdminRepository {
         List<ShowReportTrashcan> reportTrashcan = resultQuery2.getResultList();
         for(ShowReportTrashcan trashcans : reportTrashcan){
             System.out.println("modifyTrashcan :"+ trashcans);
-            trashcans.setModifyStatus(true);
+            trashcans.setModifyStatus(1);
             em.persist(trashcans);
         }
 

@@ -33,13 +33,13 @@ public class ShowReportTrashcan {
 
     //false 면 처리중(빨간색글씨) / ture 면 처리완료(초록색글씨)
     @Column(nullable = false)
-    private Boolean modifyStatus;
+    private int modifyStatus;
 
     public ShowReportTrashcan(String email, Long trashcanId, String detailAddress, String reportCategory) {
         this.email = email;
         this.trashcanId = trashcanId;
         this.reportCategory = reportCategory;
         this.detailAddress = detailAddress;
-        modifyStatus = false;
+        modifyStatus = 0;
     }
 }

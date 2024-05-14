@@ -105,13 +105,14 @@ public class AdminService {
         return ResponseEntity.ok("신고 내역 삭제 완료");
     }
 
-    public ResponseEntity<?> modifyStatus(ReportTrashcanDTO reportTrashcanDTO){
+    public ResponseEntity<?> modifyStatus(ReportTrashcanDTO reportTrashcanDTO,int i){
         Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
         String reportCategory = reportTrashcanDTO.getReportCategory();
         try{
             List<ShowReportTrashcan> showReportTrashcanList = adminRepository.findShowReportTrashcanByTrashcanIdandReportCategory(trashcanId,reportCategory);
             //status 모두 1로 수정
             for (ShowReportTrashcan trashcan: showReportTrashcanList){
+                trashcan.setModifyStatus(i);
                 adminRepository.modifyStatus(trashcan);
             }
         } catch (IllegalStateException e){
