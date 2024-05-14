@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Repository
@@ -35,6 +36,13 @@ public class TrashcanRepository {
 //        return em.createQuery("SELECT  t from Trashcan t", Trashcan.class)
 //                .getResultList();
 //    }
+
+    public Long findTrashcanByLatAndLon(Double lat, Double lon) {
+        TypedQuery<Long> resultQuery = em.createQuery("SELECT t.unknown_trashcan_id from Unknown_Trashcan t where t.latitude =: lat and t.longitude =: lon ", Long.class);
+        resultQuery.setParameter("lat",lat);
+        resultQuery.setParameter("lon",lon);
+        return resultQuery.getSingleResult();
+    }
 
     //쓰레기통 신고
     public Long saveReportTrashcan(Report_Trashcan reportTrashcan){
@@ -81,12 +89,8 @@ public class TrashcanRepository {
     }
 
 
-    public List<String> findReportTrashcanByIdAndReportCategoryAndTrashcanId(String reportCategory, String userEmail, Long trashcanId) {
-
-        System.out.println("reportCategory = " + reportCategory);
-        System.out.println("userEmail = " + userEmail);
-
-        TypedQuery<String> resultQuery = em.createQuery("select rt.user.email from Report_Trashcan rt where rt.user.email = :userEmail and rt.reportCategory = :reportCategory and rt.trashcan.id = :trashcanId", String.class);
+    public List<Report_Trashcan> findReportTrashcanByIdAndReportCategoryAndTrashcanId(String reportCategory, String userEmail, Long trashcanId) {
+        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.user.email = :userEmail and rt.reportCategory = :reportCategory and rt.trashcan.id = :trashcanId", Report_Trashcan.class);
         resultQuery.setParameter("userEmail", userEmail);
         resultQuery.setParameter("reportCategory", reportCategory);
         resultQuery.setParameter("trashcanId", trashcanId);
@@ -106,13 +110,7 @@ public class TrashcanRepository {
     }
 
     //사용자가 신고내역 삭제
-    public void deleteReportTrashcan(Long reportTrashcanId, String reportCategory, String email){
-        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("select rt from Report_Trashcan rt where rt.trashcan.id = :reportTrashcanId and rt.reportCategory = :reportCategory and rt.user.email = :email", Report_Trashcan.class);
-        resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
-        resultQuery.setParameter("reportCategory",reportCategory);
-        resultQuery.setParameter("email", email);
-        Report_Trashcan reportTrashcan = resultQuery.getSingleResult();
-        System.out.println("reportTrashcan = " + reportTrashcan);
+    public void deleteReportTrashcan(Report_Trashcan reportTrashcan){
         em.remove(reportTrashcan);
     }
 
@@ -151,5 +149,14 @@ public class TrashcanRepository {
         TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery(jpql, ShowReportTrashcan.class);
         resultQuery.setParameter("email",email);
         return resultQuery.getResultList();
+    }
+
+    public Long findReportTrashcanIdByEmailAndTrashcanIdAndReportCategory(String reportCategory, String userEmail, Long trashcanId){
+        TypedQuery<Long> result = em.createQuery("select rt.trashcan.id from Report_Trashcan rt where rt.user.email = :userEmail and rt.reportCategory = :reportCategory and rt.trashcan.id = :trashcanId ",Long.class);
+        result.setParameter("userEmail", userEmail);
+        result.setParameter("reportCategory", reportCategory);
+        result.setParameter("trashcanId", trashcanId);
+
+        return result.getSingleResult();
     }
 }

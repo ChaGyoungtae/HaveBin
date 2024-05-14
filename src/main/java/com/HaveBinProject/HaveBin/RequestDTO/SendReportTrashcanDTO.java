@@ -15,7 +15,7 @@ public class SendReportTrashcanDTO {
     private Long userId;
     private Long trashcanId;
     private String reportCategory;
-    private Boolean modifyStatus;
+    private int modifyStatus;
 
 }
 

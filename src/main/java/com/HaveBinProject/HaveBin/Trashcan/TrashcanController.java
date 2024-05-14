@@ -2,8 +2,11 @@ package com.HaveBinProject.HaveBin.Trashcan;
 
 import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
+import com.HaveBinProject.HaveBin.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,10 @@ public class TrashcanController {
     private final TrashcanService trashcanService;
     private final ReportIntervalService reportIntervalService;
 
+    private final AdminService adminService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/findTrashcans")
     public List<TrashcanData> sendAll(){
         return trashcanService.findTrashcans();
@@ -32,12 +39,20 @@ public class TrashcanController {
         System.out.println(posResponse.toString());
         return trashcanService.findNearTrashcans(posResponse);
     }
+//
+//    //유저가 수동으로 새로 신고한 쓰레기통
+//    @PostMapping("/newTrashcan")
+//    public ResponseEntity<?> newTrashcan(@RequestPart(value = "RegisterTrashcanDTO") RegisterTrashcanDTO registerTrashcanDTO, @RequestPart(value = "image") MultipartFile files , @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        String email = userDetails.getUsername();
+//        return trashcanService.register_unknown(registerTrashcanDTO, files, email);
+//    }
 
-    //유저가 새로 신고한 쓰레기통 데이터를 일단 unknown_trashcan 테이블에 저장
-    @PostMapping("/newTrashcan")
-    public ResponseEntity<?> newTrashcan(@RequestPart(value = "RegisterTrashcanDTO") RegisterTrashcanDTO registerTrashcanDTO, @RequestPart(value = "image") MultipartFile files , @AuthenticationPrincipal CustomUserDetails userDetails) {
+    //유저가 욜로로 인식하고 신고한 쓰레기통
+    @PostMapping("/registerTrashcan")
+    public ResponseEntity<String> registerTrashcan(@RequestPart(value = "RegisterTrashcanDTO") RegisterTrashcanDTO registerTrashcanDTO, @RequestPart(value = "image") MultipartFile files , @AuthenticationPrincipal CustomUserDetails userDetails) {
         String email = userDetails.getUsername();
-        return trashcanService.register_unknown(registerTrashcanDTO, files, email);
+
+        return trashcanService.autoRegisterTrashcan(registerTrashcanDTO,files,email);
     }
 
     //유저가 기존에 있던 쓰레기통을 신고 / reportTrashcan에 저장 / 조회용 테이블에도 저장
@@ -49,7 +64,8 @@ public class TrashcanController {
         //관리자가 아니면서 1분 내로 이미 신고를 한 경우 신고 불가
         if(reportIntervalService.getData(email) != null) {
             if(userDetails.getUsername() != "admin")
-                return ResponseEntity.badRequest().body("신고는 1분에 1번만 가능합니다. 잠시 뒤에 신고해주세요.");
+                logger.error("reportTrashcan - 1분 2회 이상 신고 에러");
+                return ResponseEntity.badRequest().body("3");
         }
 
         System.out.println("email = " + email);

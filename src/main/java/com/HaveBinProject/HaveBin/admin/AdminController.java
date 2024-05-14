@@ -8,6 +8,8 @@ import com.HaveBinProject.HaveBin.Trashcan.ShowReportTrashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +24,14 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/findAllUnknownTrashcans")
     public List<Unknown_Trashcan> adminPage(){
         return adminService.findAll();
     }
 
-    // 임시 쓰레기통 -> 새로운 쓰레기통으로 등록
+    //새로운 쓰레기통으로 등록
     @PostMapping("/acceptNewTrashcan")
     public ResponseEntity<?> acceptNewTrashcan(@RequestBody String unknown_trashcan_id) {
         System.out.println("unknown_trashcan_id = " + unknown_trashcan_id);
@@ -53,13 +57,16 @@ public class AdminController {
 
         try {
             adminService.deleteReportTrashcans(trashcanId, category);
-
-            //사용자들 조회테이블에 해당 쓰레기통 신고내역에 modifyStatus를 1로 변경
-            adminService.modifyStatus(reportTrashcanDTO, 1);
-
-
         } catch (Exception e) {
-            ResponseEntity.badRequest().body("신고내역 삭제 실패");
+            logger.error("deleteTrashcan - 해당 Trashcan을 같은 신고항목으로 신고한 다른 신고내역들 삭제 실패");
+            return ResponseEntity.badRequest().body("13");
+        }
+
+        try {
+            adminService.modifyStatus(trashcanId,category, 1);
+        } catch (Exception e) {
+            logger.error("deleteTrashcan - 신고를 처리한 신고내역에 대해 조회용 신고내역의 modifyStatus를 1로 변경 실패");
+            return ResponseEntity.badRequest().body("14");
         }
 
         return adminService.deleteTrashcan(trashcanId);
@@ -72,18 +79,7 @@ public class AdminController {
         Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
         String category = reportTrashcanDTO.getReportCategory();
 
-        try {
-            adminService.deleteReportTrashcans(trashcanId, category);
-
-            //사용자들 조회테이블에 해당 쓰레기통 신고내역에 modifyStatus를 2로 변경
-            adminService.modifyStatus(reportTrashcanDTO,2);
-
-
-        } catch (Exception e) {
-            ResponseEntity.badRequest().body("신고내역 삭제 실패");
-        }
-
-        return ResponseEntity.ok().body("신고내역 삭제 성공");
+        return adminService.cancelReport(trashcanId,category);
     }
 
     //신고한 쓰레기통 목록 조회

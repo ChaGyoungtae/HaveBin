@@ -12,4 +12,5 @@ public class ReportDTO {
     private String trashcanId;
     private Double latitude;
     private Double longitude;
+    private String reportCategory;
 }

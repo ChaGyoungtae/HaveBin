@@ -1,6 +1,7 @@
 package com.HaveBinProject.HaveBin.admin;
 
 import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
 import com.HaveBinProject.HaveBin.Trashcan.*;
 import jakarta.persistence.EntityManager;
@@ -50,53 +51,11 @@ public class AdminRepository {
         return resultQuery.getResultList();
     }
 
-    public Long modifyTrashcan(ReportDTO reportDTO){
+    public Long modifyTrashcan(Trashcan trashcan){
 
-        Reverse_Geocoding reverseGeocoding = new Reverse_Geocoding();
-
-        Trashcan trashcan = em.find(Trashcan.class, reportDTO.getTrashcanId());
-        trashcan.setLatitude(reportDTO.getLatitude());
-        trashcan.setLongitude(reportDTO.getLongitude());
-        String detailAddress = null;
-        try{
-            detailAddress = reverseGeocoding.loadLocation(reportDTO.getLatitude(), reportDTO.getLongitude());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        finally {
-            trashcan.setDetailAddress(detailAddress);
-        }
-
-        System.out.println("trashcan.getLatitude() = " + trashcan.getLatitude());
-        System.out.println("trashcan.getLongitude() = " + trashcan.getLongitude());
         em.persist(trashcan);
 
-        String category = "0";
-        TypedQuery<Report_Trashcan> resultQuery = em.createQuery("SELECT rt from Report_Trashcan rt where rt.trashcan.id =: reportTrashcanId and rt.reportCategory =: reportCategory", Report_Trashcan.class);
-        resultQuery.setParameter("reportTrashcanId",reportDTO.getTrashcanId());
-        resultQuery.setParameter("reportCategory",category);
-        List<Report_Trashcan> reportTrashcans = resultQuery.getResultList();
-
-
-
-        for (Report_Trashcan reportTrashcan : reportTrashcans){
-            System.out.println("trashcan :"+ reportTrashcan);
-            em.remove(reportTrashcan);
-        }
-
-
-        TypedQuery<ShowReportTrashcan> resultQuery2 = em.createQuery("SELECT srt from ShowReportTrashcan srt where srt.reportCategory =: reportCategory and srt.trashcanId =: reportTrashcanId", ShowReportTrashcan.class);
-        resultQuery2.setParameter("reportTrashcanId",reportDTO.getTrashcanId());
-        resultQuery2.setParameter("reportCategory",category);
-        List<ShowReportTrashcan> reportTrashcan = resultQuery2.getResultList();
-        for(ShowReportTrashcan trashcans : reportTrashcan){
-            System.out.println("modifyTrashcan :"+ trashcans);
-            trashcans.setModifyStatus(1);
-            em.persist(trashcans);
-        }
-
-
-        return Long.parseLong(reportDTO.getReportId());
+        return trashcan.getId();
     }
 
 
@@ -113,7 +72,7 @@ public class AdminRepository {
     }
 
     public List<ShowReportTrashcan> findShowReportTrashcanByTrashcanIdandReportCategory(Long reportTrashcanId, String reportCategory){
-        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery("select srt from ShowReportTrashcan srt where srt.trashcanId =: reporTrashcanId and srt.reportCategory =: reportCategory", ShowReportTrashcan.class);
+        TypedQuery<ShowReportTrashcan> resultQuery = em.createQuery("select srt from ShowReportTrashcan srt where srt.trashcanId =: reportTrashcanId and srt.reportCategory =: reportCategory", ShowReportTrashcan.class);
         resultQuery.setParameter("reportTrashcanId",reportTrashcanId);
         resultQuery.setParameter("reportCategory",reportCategory);
         return resultQuery.getResultList();

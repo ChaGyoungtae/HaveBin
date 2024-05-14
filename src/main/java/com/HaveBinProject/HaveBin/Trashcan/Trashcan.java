@@ -2,10 +2,7 @@ package com.HaveBinProject.HaveBin.Trashcan;
 
 import com.HaveBinProject.HaveBin.ResponseDTO.TrashcanData;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Trashcan {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +45,6 @@ public class Trashcan {
     // 세부주소 (예, 버스정거장, 택시승강장, 공원 등)
     @Column
     private String detailAddress;
+
+
 }
