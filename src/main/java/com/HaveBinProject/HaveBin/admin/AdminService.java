@@ -159,7 +159,7 @@ public class AdminService {
 
     }
 
-    public ResponseEntity<?> cancelReport(Long reportTrashcanId, String reportCategory){
+    public ResponseEntity<?> cancelReport(Long reportTrashcanId, String reportCategory, String reason){
         try {
             deleteReportTrashcans(reportTrashcanId, reportCategory);
         } catch (Exception e) {
@@ -173,6 +173,19 @@ public class AdminService {
         } catch (Exception e){
             logger.error("cancelTrashcan - 신고를 처리한 신고내역에 대해 조회용 신고내역의 modifyStatus를 2로 변경 실패");
             return ResponseEntity.badRequest().body("22");
+        }
+
+        try {
+            //신고 취소 사유 저장
+            List<ShowReportTrashcan> showReportTrashcanList = adminRepository.findShowReportTrashcanByTrashcanIdandReportCategory(reportTrashcanId,reportCategory);
+            //status 모두 1로 수정
+            for (ShowReportTrashcan trashcan: showReportTrashcanList){
+                trashcan.setReasonReportCancel(reason);
+                adminRepository.modifyStatus(trashcan);
+            }
+        } catch (Exception e){
+            logger.error("cancelTrashcan - 신고사유수정 실패");
+            return ResponseEntity.badRequest().body("24");
         }
             logger.info("cancelTrashcan 성공");
         return ResponseEntity.ok().body("23");

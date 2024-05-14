@@ -1,9 +1,6 @@
 package com.HaveBinProject.HaveBin.admin;
 
-import com.HaveBinProject.HaveBin.RequestDTO.DeleteTrashcanDTO;
-import com.HaveBinProject.HaveBin.RequestDTO.ReportDTO;
-import com.HaveBinProject.HaveBin.RequestDTO.ReportTrashcanDTO;
-import com.HaveBinProject.HaveBin.RequestDTO.SendReportTrashcanDTO;
+import com.HaveBinProject.HaveBin.RequestDTO.*;
 import com.HaveBinProject.HaveBin.Trashcan.ShowReportTrashcan;
 import com.HaveBinProject.HaveBin.Trashcan.Unknown_Trashcan;
 import lombok.Getter;
@@ -74,12 +71,12 @@ public class AdminController {
 
     //잘못된 신고 삭제
     @PostMapping("/cancelReport")
-    public ResponseEntity<?> cancelReport(@RequestBody ReportTrashcanDTO reportTrashcanDTO){
+    public ResponseEntity<?> cancelReport(@RequestBody ReportCancelDTO reportCancelDTO){
 
-        Long trashcanId = Long.parseLong(reportTrashcanDTO.getTrashcanId());
-        String category = reportTrashcanDTO.getReportCategory();
+        Long trashcanId = Long.parseLong(reportCancelDTO.getTrashcanId());
+        String category = reportCancelDTO.getReportCategory();
 
-        return adminService.cancelReport(trashcanId,category);
+        return adminService.cancelReport(trashcanId,category, reportCancelDTO.getReasonReportCancel());
     }
 
     //신고한 쓰레기통 목록 조회

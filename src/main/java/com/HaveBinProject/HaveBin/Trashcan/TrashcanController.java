@@ -19,8 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = {
         ("http://localhost:3000"),
-        ("http://www.have-bin.com"),
-        ("http://have-bin.com"),})
+        ("https://www.have-bin.com"),
+        ("https://have-bin.com"),})
 public class TrashcanController {
 
     private final TrashcanService trashcanService;

@@ -81,4 +81,6 @@ public class AdminRepository {
     public void modifyStatus(ShowReportTrashcan showReportTrashcan){
         em.persist(showReportTrashcan);
     }
+
+
 }

@@ -35,11 +35,15 @@ public class ShowReportTrashcan {
     @Column(nullable = false)
     private int modifyStatus;
 
+    @Column(nullable = true)
+    private String reasonReportCancel;
+
     public ShowReportTrashcan(String email, Long trashcanId, String detailAddress, String reportCategory) {
         this.email = email;
         this.trashcanId = trashcanId;
         this.reportCategory = reportCategory;
         this.detailAddress = detailAddress;
+        reasonReportCancel = null;
         modifyStatus = 0;
     }
 }
