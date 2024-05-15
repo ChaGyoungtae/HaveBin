@@ -18,9 +18,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = {
-        ("http://localhost:3000"),
-        ("https://www.have-bin.com"),
-        ("https://have-bin.com"),})
+        "http://localhost:3000",
+        "https://www.have-bin.com",
+        "https://have-bin.com",})
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
