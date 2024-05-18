@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class RegisterTrashcanDTO {
 
     // 정렬 메서드 추가
@@ -33,8 +33,13 @@ public class RegisterTrashcanDTO {
 
         // 위도 기준으로 좌표 정렬 -> 맨 앞과 맨 끝 값 삭제 -> 나머지 평균 구하기
         List<Coordinate> cordinates = this.getCoordinates();
+        System.out.println("sort start!");
+        for(int i = 0; i<cordinates.size(); i++){
+            System.out.println(i + " : " + cordinates.get(i).getLatitude()+" , "+cordinates.get(i).getLongitude());
+        }
         sortCoordinates();
-
+        System.out.println("sort end!");
+        System.out.println("median start!");
         if (coordinates.size() > 1) {
             coordinates.remove(0); // 맨 앞의 값 제거
             coordinates.remove(coordinates.size() - 1); // 맨 뒤의 값 제거
@@ -44,7 +49,7 @@ public class RegisterTrashcanDTO {
             Lat += coordinates.get(i).getLatitude();
             Lon += coordinates.get(i).getLongitude();
         }
-
+        
         return new Coordinate(Lat / coordinates.size(), Lon / coordinates.size());
     }
 
@@ -55,7 +60,12 @@ public class RegisterTrashcanDTO {
     public Unknown_Trashcan toEntity(RegisterTrashcanDTO registerTrashcanDTO, Long userid) {
         Unknown_Trashcan trashcan = new Unknown_Trashcan();
 
+
+        
+
         Coordinate coordinate = getLatAndLon(coordinates);
+        System.out.println("coordinate.getLatitude() + \" , \" + coordinate.getLongitude() = " + coordinate.getLatitude() + " , " + coordinate.getLongitude());
+        System.out.println("end!");
 
         trashcan.setUserId(userid);
         trashcan.setLatitude(coordinate.getLatitude());
