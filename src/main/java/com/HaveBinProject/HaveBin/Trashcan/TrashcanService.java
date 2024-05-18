@@ -42,9 +42,11 @@ public class TrashcanService {
 
         //Trashcan, UnknownTrashcan 두 테이블 모두 없는 신규 쓰레기통이면 등록
         try{
+            registerTrashcanDTO.sortCoordinates();
+            Coordinate coordinate = registerTrashcanDTO.getLatAndLon(registerTrashcanDTO.getCoordinates());
 
-            Double lat = registerTrashcanDTO.getLatitude();
-            Double lon = registerTrashcanDTO.getLongitude();
+            Double lat = coordinate.getLatitude();
+            Double lon = coordinate.getLongitude();
 
             //5미터는 0.0000449
             Double interval = 0.0000449;
@@ -193,9 +195,12 @@ public class TrashcanService {
         } catch (Exception e){
             return ResponseEntity.badRequest().body("1");
         }
+
+        registerTrashcanDTO.sortCoordinates();
+        Coordinate coordinate = registerTrashcanDTO.getLatAndLon(registerTrashcanDTO.getCoordinates());
         
         try {
-            unknownTrashcanId = findTrashcanIdByLatAndLon(registerTrashcanDTO.getLatitude(),registerTrashcanDTO.getLongitude());
+            unknownTrashcanId = findTrashcanIdByLatAndLon(coordinate.getLatitude(), coordinate.getLongitude());
         } catch (Exception e){
             logger.error("findTrashcanIdByLatAndLon 실패");
             return ResponseEntity.badRequest().body("1");
