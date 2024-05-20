@@ -48,8 +48,8 @@ public class TrashcanService {
             Double lat = coordinate.getLatitude();
             Double lon = coordinate.getLongitude();
 
-            //5미터는 0.0000449
-            Double interval = 0.0000449;
+            //5미터는 0.0000449 - 10미터로 바꿈
+            Double interval = 0.0000898;
             PosResponse posResponse = new PosResponse(lat+interval,lon+interval, lat-interval, lon-interval );
             List<TrashcanData> trashcanDataList = findNearTrashcans(posResponse);
             if (trashcanDataList == null) {
