@@ -48,8 +48,8 @@ public class TrashcanService {
             Double lat = coordinate.getLatitude();
             Double lon = coordinate.getLongitude();
 
-            //5미터는 0.0000449 - 10미터로 바꿈
-            Double interval = 0.001796;
+            //5미터는 0.0000449 - 직경 20미터내에 있는 쓰레기통 찾기
+            Double interval = 0.0001796;
             PosResponse posResponse = new PosResponse(lat+interval,lon+interval, lat-interval, lon-interval );
             List<TrashcanData> trashcanDataList = findNearTrashcans(posResponse);
             if (trashcanDataList == null) {
@@ -68,7 +68,7 @@ public class TrashcanService {
             }
             System.out.println("unknownTrashcanList = " + unknownTrashcanList);
 
-            if(unknownTrashcanList.size() >0){
+            if(unknownTrashcanList.size() > 0){
                 throw new IllegalStateException("이미 등록된 쓰레기통 입니다.");
             }
 
