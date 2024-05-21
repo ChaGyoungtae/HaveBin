@@ -45,17 +45,20 @@ public class TrashcanService {
             registerTrashcanDTO.sortCoordinates();
             Coordinate coordinate = registerTrashcanDTO.getLatAndLon(registerTrashcanDTO.getCoordinates());
 
+            System.out.println("coordinate = " + coordinate.getLongitude() + " , " +coordinate.getLatitude());
+
             Double lat = coordinate.getLatitude();
             Double lon = coordinate.getLongitude();
 
             //5미터는 0.0000449 - 직경 20미터내에 있는 쓰레기통 찾기
             Double interval = 0.0001796;
             PosResponse posResponse = new PosResponse(lat+interval,lon+interval, lat-interval, lon-interval );
+            System.out.println("posResponse = " + posResponse.getNeLat() + " , " + posResponse.getNeLon() + " , " + posResponse.getSwLat() + " , " + posResponse.getSwLon());
             List<TrashcanData> trashcanDataList = findNearTrashcans(posResponse);
             if (trashcanDataList == null) {
                 trashcanDataList = new ArrayList<>();
+                System.out.println("null exeption");
             }
-            System.out.println("trashcanDataList = " + trashcanDataList);
 
             //등록되어있는 쓰레기통인지 판별
             if(trashcanDataList.size() > 0){

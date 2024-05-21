@@ -40,16 +40,20 @@ public class RegisterTrashcanDTO {
         sortCoordinates();
         System.out.println("sort end!");
         System.out.println("median start!");
+
         if (coordinates.size() > 1) {
             coordinates.remove(0); // 맨 앞의 값 제거
             coordinates.remove(coordinates.size() - 1); // 맨 뒤의 값 제거
+        }
+        for(int i = 0; i<cordinates.size(); i++){
+            System.out.println(i + " : " + cordinates.get(i).getLatitude()+" , "+cordinates.get(i).getLongitude());
         }
 
         for (int i = 0; i < coordinates.size(); i++) {
             Lat += coordinates.get(i).getLatitude();
             Lon += coordinates.get(i).getLongitude();
         }
-        
+        System.out.println("Lat = " + Lat / coordinates.size() + " , Lon = " + Lon / coordinates.size());
         return new Coordinate(Lat / coordinates.size(), Lon / coordinates.size());
     }
 

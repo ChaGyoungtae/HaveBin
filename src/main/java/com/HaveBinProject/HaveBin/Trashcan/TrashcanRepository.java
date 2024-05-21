@@ -85,7 +85,11 @@ public class TrashcanRepository {
         resultQuery.setParameter("minLat", posResponse.getSwLat());
         resultQuery.setParameter("minLon", posResponse.getSwLon());
 
-        return resultQuery.getResultList();
+        var resultList = resultQuery.getResultList();
+        for (int i = 0; i<resultList.size(); i++){
+            System.out.println(i + " = " + resultList.get(i).getLatitude() + " , " + resultList.get(i).getLongitude());
+        }
+        return resultList;
     }
 
 
