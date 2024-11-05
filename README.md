@@ -1,7 +1,7 @@
 # HaveBin
 
-<img width="926" alt="스크린샷 2024-06-22 오후 6 17 09" src="https://github.com/HYEONSIKOH/HaveBin/assets/100890581/14d17b83-420f-4fc5-a9dc-b1315f048a73"> <br/><br/>
-
+<img width="926" alt="스크린샷 2024-06-22 오후 6 17 09" src="https://github.com/user-attachments/assets/24e6f5bd-3121-4afe-afa1-5bb69759fe7e">
+<br/><br/>
 
 **프로젝트 소개**
 
