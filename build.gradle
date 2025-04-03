@@ -55,6 +55,10 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 }
 
+tasks.bootJar {
+	archiveFileName = "havebin_spring.jar"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
